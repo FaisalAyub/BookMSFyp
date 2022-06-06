@@ -1,0 +1,19 @@
+using Abp.Application.Services.Dto;
+using System;
+
+namespace ERP.GLCostCenter.Dtos
+{
+    public class GetAllGLCstCentForExcelInput
+    {
+		public string Filter { get; set; }
+
+		public string CostCenterIDFilter { get; set; }
+
+		public string CostCenterFilter { get; set; }
+
+		public string CCStructIDFilter { get; set; }
+
+
+
+    }
+}

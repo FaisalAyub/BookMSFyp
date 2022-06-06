@@ -1,0 +1,26 @@
+using System;
+using System.Threading.Tasks;
+using Abp.Application.Services;
+using Abp.Application.Services.Dto;
+using ERP.Books.Dtos;
+using ERP.Dto;
+
+namespace ERP.Books
+{
+    public interface IGLBOOKSAppService : IApplicationService 
+    {
+        Task<PagedResultDto<GetGLBOOKSForViewDto>> GetAll(GetAllGLBOOKSInput input);
+
+        Task<GetGLBOOKSForViewDto> GetGLBOOKSForView(int id);
+
+		Task<GetGLBOOKSForEditOutput> GetGLBOOKSForEdit(EntityDto<int> input);
+
+		Task CreateOrEdit(CreateOrEditGLBOOKSDto input);
+
+		Task Delete(EntityDto<int> input);
+
+		Task<FileDto> GetGLBOOKSToExcel(GetAllGLBOOKSForExcelInput input);
+
+		
+    }
+}

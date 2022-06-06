@@ -1,0 +1,11 @@
+using System.Collections.Generic;
+using ERP.Books.Dtos;
+using ERP.Dto;
+
+namespace ERP.Books.Exporting
+{
+    public interface IGLBOOKSExcelExporter
+    {
+        FileDto ExportToFile(List<GetGLBOOKSForViewDto> glbooks);
+    }
+}

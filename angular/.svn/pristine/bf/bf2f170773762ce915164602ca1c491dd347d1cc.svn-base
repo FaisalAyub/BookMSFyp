@@ -1,0 +1,39 @@
+import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
+import { ModalDirective } from 'ngx-bootstrap';
+import { GetGLSRCEForViewDto, GLSRCEDto } from '@shared/service-proxies/service-proxies';
+import { AppComponentBase } from '@shared/common/app-component-base';
+
+@Component({
+    selector: 'viewGLSRCEModal',
+    templateUrl: './view-glsrce-modal.component.html'
+})
+export class ViewGLSRCEModalComponent extends AppComponentBase {
+
+    @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
+    @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
+
+    active = false;
+    saving = false;
+
+    item: GetGLSRCEForViewDto;
+
+
+    constructor(
+        injector: Injector
+    ) {
+        super(injector);
+        this.item = new GetGLSRCEForViewDto();
+        this.item.glsrce = new GLSRCEDto();
+    }
+
+    show(item: GetGLSRCEForViewDto): void {
+        this.item = item;
+        this.active = true;
+        this.modal.show();
+    }
+
+    close(): void {
+        this.active = false;
+        this.modal.hide();
+    }
+}

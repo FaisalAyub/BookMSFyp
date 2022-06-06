@@ -1,0 +1,28 @@
+
+using System;
+using Abp.Application.Services.Dto;
+using System.ComponentModel.DataAnnotations;
+
+namespace ERP.GLCostCenter.Dtos
+{
+    public class CreateOrEditGLCstCentDto : EntityDto<int>
+    {
+
+
+        [Required]
+        public string costCenterID { get; set; }
+		
+		
+		[Required]
+		public string CostCenter { get; set; }
+		
+		
+		[Required]
+		public string CCStructID { get; set; }
+
+        public int Id { get; set; }
+		
+		
+
+    }
+}

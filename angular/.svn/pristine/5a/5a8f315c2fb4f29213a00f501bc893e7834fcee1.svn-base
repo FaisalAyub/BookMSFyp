@@ -1,0 +1,100 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #glbooksForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="glbooks.id">{{l("EditGLBOOKS")}}</span>
+                        <span *ngIf="!glbooks.id">{{l("CreateNewGLBOOKS")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<div class="row">
+											<div class="col-md-3">
+												<label for="GLBOOKS_BookID">{{l("BookID")}} *</label>
+											</div>
+									<div class="col-md-9">
+										<input type="text" id="GLBOOKS_BookID" class="form-control" [(ngModel)]="glbooks.bookID" name="BookID"     required/>
+									</div>
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-3">
+											<label for="GLBOOKS_BookName">{{l("BookName")}} *</label>
+								</div>
+								<div class="col-md-9">
+									<input type="text" id="GLBOOKS_BookName" class="form-control" [(ngModel)]="glbooks.bookName" name="BookName"     required/>
+								</div>
+								</div>
+							</div>
+					
+								<div class="form-group">
+									<div class="row">
+											<div class="col-md-3">
+												<label for="GLBOOKS_NormalEntry">{{l("NormalEntry")}}</label>
+									</div>
+									<div class="col-md-9">
+										<input type="number" id="GLBOOKS_NormalEntry" class="form-control" [(ngModel)]="glbooks.normalEntry" name="NormalEntry"  />
+							</div>
+							</div>
+							</div>
+					
+								<div class="m-checkbox-list">
+									<label for="GLBOOKS_Integrated" class="kt-checkbox">
+										<input id="GLBOOKS_Integrated" type="checkbox" name="Integrated" [(ngModel)]="glbooks.integrated"> 
+										{{l("Integrated")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-3">
+											<label for="GLBOOKS_SysDate">{{l("SysDate")}}</label>
+									</div>
+										<div class="col-md-9">
+											<input type="number" id="GLBOOKS_SysDate" class="form-control" [(ngModel)]="glbooks.sysDate" name="SysDate"  />
+								 </div>
+								</div>
+							</div>
+					
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-3">
+											<label for="GLBOOKS_DbID">{{l("DbID")}}</label>
+									</div>
+										<div class="col-md-9">
+											<input type="number" id="GLBOOKS_DbID" class="form-control" [(ngModel)]="glbooks.dbID" name="DbID"  />
+									</div>
+								</div>
+								</div>
+					
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-3">
+											<label for="GLBOOKS_Restricted">{{l("Restricted")}}</label>
+									</div>
+								<div class="col-md-9">
+									<input type="number" id="GLBOOKS_Restricted" class="form-control" [(ngModel)]="glbooks.restricted" name="Restricted"  />
+								</div>
+							</div>
+							</div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!glbooksForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

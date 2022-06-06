@@ -1,0 +1,38 @@
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace ERP.Migrations
+{
+    public partial class Added_GLSRCE : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "GLSRCE",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TenantId = table.Column<int>(nullable: true),
+                    SRCELEDGER = table.Column<string>(nullable: false),
+                    SRCETYPE = table.Column<string>(nullable: false),
+                    SRCEDESC = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GLSRCE", x => x.Id);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GLSRCE_TenantId",
+                table: "GLSRCE",
+                column: "TenantId");
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "GLSRCE");
+        }
+    }
+}

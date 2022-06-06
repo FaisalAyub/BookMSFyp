@@ -1,0 +1,154 @@
+
+
+using System;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using Abp.Linq.Extensions;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Abp.Domain.Repositories;
+using ERP.GLCostCenter.Exporting;
+using ERP.GLCostCenter.Dtos;
+using ERP.Dto;
+using Abp.Application.Services.Dto;
+using ERP.Authorization;
+using Abp.Extensions;
+using Abp.Authorization;
+using Microsoft.EntityFrameworkCore;
+
+namespace ERP.GLCostCenter
+{
+	[AbpAuthorize(AppPermissions.Pages_GLCstCent)]
+    public class GLCstCentAppService : ERPAppServiceBase, IGLCstCentAppService
+    {
+		 private readonly IRepository<GLCstCent, int> _glCstCentRepository;
+		 private readonly IGLCstCentExcelExporter _glCstCentExcelExporter;
+		 
+
+		  public GLCstCentAppService(IRepository<GLCstCent, int> glCstCentRepository, IGLCstCentExcelExporter glCstCentExcelExporter ) 
+		  {
+			_glCstCentRepository = glCstCentRepository;
+			_glCstCentExcelExporter = glCstCentExcelExporter;
+			
+		  }
+
+		 public async Task<PagedResultDto<GetGLCstCentForViewDto>> GetAll(GetAllGLCstCentInput input)
+         {
+			
+			var filteredGLCstCent = _glCstCentRepository.GetAll()
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false  || e.CostCenter.Contains(input.Filter) || e.CCStructID.Contains(input.Filter))
+						.WhereIf(!string.IsNullOrWhiteSpace(input.CostCenterFilter),  e => e.CostCenter.ToLower() == input.CostCenterFilter.ToLower().Trim())
+						.WhereIf(!string.IsNullOrWhiteSpace(input.CCStructIDFilter),  e => e.CCStructID.ToLower() == input.CCStructIDFilter.ToLower().Trim());
+
+			var pagedAndFilteredGLCstCent = filteredGLCstCent
+                .OrderBy(input.Sorting ?? "id asc")
+                .PageBy(input);
+
+			var glCstCent = from o in pagedAndFilteredGLCstCent
+                         select new GetGLCstCentForViewDto() {
+							GLCstCent = new GLCstCentDto
+							{
+                                Id  = o.Id,
+                                CostCenterID = o.CostCenterID,
+                                CostCenter = o.CostCenter,
+                                CCStructID = o.CCStructID,
+							}
+						};
+
+            var totalCount = await filteredGLCstCent.CountAsync();
+
+            return new PagedResultDto<GetGLCstCentForViewDto>(
+                totalCount,
+                await glCstCent.ToListAsync()
+            );
+         }
+		 
+		 public async Task<GetGLCstCentForViewDto> GetGLCstCentForView(int id)
+         {
+            var glCstCent = await _glCstCentRepository.GetAsync(id);
+
+            var output = new GetGLCstCentForViewDto { GLCstCent = ObjectMapper.Map<GLCstCentDto>(glCstCent) };
+			
+            return output;
+         }
+		 
+		 [AbpAuthorize(AppPermissions.Pages_GLCstCent_Edit)]
+		 public async Task<GetGLCstCentForEditOutput> GetGLCstCentForEdit(EntityDto<int> input)
+         {
+            var glCstCent = await _glCstCentRepository.FirstOrDefaultAsync(input.Id);
+
+            var output = new GetGLCstCentForEditOutput {GLCstCent = ObjectMapper.Map<CreateOrEditGLCstCentDto>(glCstCent)};
+			
+            return output;
+         }
+
+		 public async Task CreateOrEdit(CreateOrEditGLCstCentDto input)
+         {
+            if(input.Id ==0){
+				await Create(input);
+			}
+			else{
+				await Update(input);
+			}
+         }
+
+		 [AbpAuthorize(AppPermissions.Pages_GLCstCent_Create)]
+		 private async Task Create(CreateOrEditGLCstCentDto input)
+         {
+            var glCstCent = ObjectMapper.Map<GLCstCent>(input);
+
+			
+			if (AbpSession.TenantId != null)
+			{
+				glCstCent.TenantId = (int?) AbpSession.TenantId;
+			}
+		
+
+             if (glCstCent.Id !=null)
+             {
+                 glCstCent.Id = input.Id;
+             }
+
+            await _glCstCentRepository.InsertAsync(glCstCent);
+         }
+
+		 [AbpAuthorize(AppPermissions.Pages_GLCstCent_Edit)]
+		 private async Task Update(CreateOrEditGLCstCentDto input)
+         {
+            var glCstCent = await _glCstCentRepository.FirstOrDefaultAsync((int)input.Id);
+             ObjectMapper.Map(input, glCstCent);
+         }
+
+		 [AbpAuthorize(AppPermissions.Pages_GLCstCent_Delete)]
+         public async Task Delete(EntityDto<int> input)
+         {
+            await _glCstCentRepository.DeleteAsync(input.Id);
+         } 
+
+		public async Task<FileDto> GetGLCstCentToExcel(GetAllGLCstCentForExcelInput input)
+         {
+			
+			var filteredGLCstCent = _glCstCentRepository.GetAll()
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false   || e.CostCenter.Contains(input.Filter) || e.CCStructID.Contains(input.Filter))
+						.WhereIf(!string.IsNullOrWhiteSpace(input.CostCenterFilter),  e => e.CostCenter.ToLower() == input.CostCenterFilter.ToLower().Trim())
+						.WhereIf(!string.IsNullOrWhiteSpace(input.CCStructIDFilter),  e => e.CCStructID.ToLower() == input.CCStructIDFilter.ToLower().Trim());
+
+			var query = (from o in filteredGLCstCent
+                         select new GetGLCstCentForViewDto() { 
+							GLCstCent = new GLCstCentDto
+							{
+                                CostCenterID = o.CostCenterID,
+                                CostCenter = o.CostCenter,
+                                CCStructID = o.CCStructID,
+							}
+						 });
+
+
+            var glCstCentListDtos = await query.ToListAsync();
+
+            return _glCstCentExcelExporter.ExportToFile(glCstCentListDtos);
+         }
+
+
+    }
+}

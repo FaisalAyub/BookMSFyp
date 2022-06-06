@@ -1,0 +1,68 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #glacgrpForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="glacgrp.id">{{l("EditGLACGRP")}}</span>
+                        <span *ngIf="!glacgrp.id">{{l("CreateNewGLACGRP")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="GLACGRP_ACCTGRPCOD">{{l("ACCTGRPCOD")}} *</label>
+									<input type="text" id="GLACGRP_ACCTGRPCOD" class="form-control" [(ngModel)]="glacgrp.acctgrpcod" name="ACCTGRPCOD"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="GLACGRP_AUDTDATE">{{l("AUDTDATE")}}</label>
+									 <input required class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="glacgrp.audtdate._d" id="GLACGRP_AUDTDATE" name="GLACGRP_AUDTDATE">
+								</div>
+					
+								<div class="form-group">
+									<label for="GLACGRP_AUDTTIME">{{l("AUDTTIME")}} *</label>
+									<input type="text" id="GLACGRP_AUDTTIME" class="form-control" [(ngModel)]="glacgrp.audttime" name="AUDTTIME"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="GLACGRP_AUDTUSER">{{l("AUDTUSER")}} *</label>
+									<input type="text" id="GLACGRP_AUDTUSER" class="form-control" [(ngModel)]="glacgrp.audtuser" name="AUDTUSER"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="GLACGRP_AUDTORG">{{l("AUDTORG")}} *</label>
+									<input type="text" id="GLACGRP_AUDTORG" class="form-control" [(ngModel)]="glacgrp.audtorg" name="AUDTORG"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="GLACGRP_ACCTGRPDES">{{l("ACCTGRPDES")}} *</label>
+									<input type="text" id="GLACGRP_ACCTGRPDES" class="form-control" [(ngModel)]="glacgrp.acctgrpdes" name="ACCTGRPDES"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="GLACGRP_SORTCODE">{{l("SORTCODE")}} *</label>
+									<input type="text" id="GLACGRP_SORTCODE" class="form-control" [(ngModel)]="glacgrp.sortcode" name="SORTCODE"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="GLACGRP_GRPCOD">{{l("GRPCOD")}}</label>
+									<input type="number" id="GLACGRP_GRPCOD" class="form-control" [(ngModel)]="glacgrp.grpcod" name="GRPCOD"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!glacgrpForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

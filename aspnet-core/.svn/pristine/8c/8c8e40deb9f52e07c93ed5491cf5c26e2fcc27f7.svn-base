@@ -1,0 +1,9 @@
+namespace ERP.Books.Dtos
+{
+    public class GetGLBOOKSForViewDto
+    {
+		public GLBOOKSDto GLBOOKS { get; set; }
+
+
+    }
+}

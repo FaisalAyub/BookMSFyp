@@ -1,0 +1,31 @@
+using Abp.Application.Services.Dto;
+using System;
+
+namespace ERP.Books.Dtos
+{
+    public class GetAllGLBOOKSForExcelInput
+    {
+		public string Filter { get; set; }
+
+		public string BookIDFilter { get; set; }
+
+		public string BookNameFilter { get; set; }
+
+		public int? MaxNormalEntryFilter { get; set; }
+		public int? MinNormalEntryFilter { get; set; }
+
+		public int IntegratedFilter { get; set; }
+
+		public decimal? MaxSysDateFilter { get; set; }
+		public decimal? MinSysDateFilter { get; set; }
+
+		public int? MaxDbIDFilter { get; set; }
+		public int? MinDbIDFilter { get; set; }
+
+		public short? MaxRestrictedFilter { get; set; }
+		public short? MinRestrictedFilter { get; set; }
+
+
+
+    }
+}

@@ -1,0 +1,83 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #glsrceForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="glsrce.id">{{l("EditGLSRCE")}}</span>
+                        <span *ngIf="!glsrce.id">{{l("CreateNewGLSRCE")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+               
+                                <div class="form-group source-code">
+                                        <div class="row">
+                                           <div class="col-md-2"> 
+                                                <label for="GLSRCE_SRCELEDGER">{{l("SRCELEDGER")}} *</label>
+                                            </div>
+                                              <div class="col-md-1 text-left">
+                                              <a class="step-back" href="javascript:void(0)" style=" font-size: 20px;">
+                                                  <i class="fa fa-step-backward" aria-hidden="true"></i>
+                                              </a>
+                                              <a class="caret-left" style="font-size: 20px; " href="javascript:void(0)"><i
+                                                      class="fa fa-caret-left" aria-hidden="true"></i>
+                                              </a>
+                                          </div>
+                                          <div class="col-md-7">
+                                                <input type="text" [disabled]="isDisabled" id="GLSRCE_SRCELEDGER" class="form-control" [(ngModel)]="glsrce.srceledger" name="SRCELEDGER"     required/>
+
+                                          </div>
+                                          <div class="col-md-2">
+                                              <a class="caret-right" href="javascript:void(0)" style="font-size: 20px; "><i
+                                                      class="fa fa-caret-right" aria-hidden="true"></i></a>
+                                              <a class="step-forwed" style="font-size: 20px; margin-left: 5px; margin-right: 5px;" href="javascript:void(0)"><i
+                                                      class="fa fa-step-forward" aria-hidden="true"></i></a>
+                                              <a class="search" style="font-size: 20px; margin-left: 5px; margin-right: 5px; " href="javascript:void(0)"><i
+                                                      class="fa fa-search" aria-hidden="true"></i></a>
+                                              <!-- <a class="file" style="font-size: 20px;" href="javascript:void(0)"><i
+                                                      class="fa fa-file-o" aria-hidden="true"></i></a> -->
+                                              <a class="file" href="#" style="font-size: 20px;" id="filesbuton">
+                                                  <i class="fa fa-file" aria-hidden="true"></i></a>	
+                                          </div>
+      
+      
+                                      </div>
+                                          <!-- <input type="text" style="display: inline-block; " id="GL_Code_SRCELEDGER" class="form-control" [(ngModel)]="gL_Code.srceledger" name="SRCELEDGER"     required/> -->
+                                      </div>
+
+
+								<div class="form-group">
+                                    <div class="row">
+                                            <div class="col-md-3">
+                                    <label for="GLSRCE_SRCETYPE">{{l("SRCETYPE")}} *</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                    <input type="text" id="GLSRCE_SRCETYPE" [disabled]="isDisabled" class="form-control" [(ngModel)]="glsrce.srcetype" name="SRCETYPE"     required/>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                <div class="form-group Description-field">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                    <label for="GLSRCE_SRCEDESC">{{l("SRCEDESC")}} *</label>
+                                                </div>
+                                        <div class="col-md-9">
+                                                <input type="text" id="GLSRCE_SRCEDESC" class="form-control" [(ngModel)]="glsrce.srcedesc" name="SRCEDESC"     required/>
+                                            </div>
+                                    </div>
+                                </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!glsrceForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

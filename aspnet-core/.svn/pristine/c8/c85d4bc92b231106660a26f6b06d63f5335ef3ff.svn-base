@@ -1,0 +1,164 @@
+
+
+using System;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using Abp.Linq.Extensions;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Abp.Domain.Repositories;
+using ERP.AccountGroup.Exporting;
+using ERP.AccountGroup.Dtos;
+using ERP.Dto;
+using Abp.Application.Services.Dto;
+using ERP.Authorization;
+using Abp.Extensions;
+using Abp.Authorization;
+using Microsoft.EntityFrameworkCore;
+
+namespace ERP.AccountGroup
+{
+	[AbpAuthorize(AppPermissions.Pages_GLACGRP)]
+    public class GLACGRPAppService : ERPAppServiceBase, IGLACGRPAppService
+    {
+		 private readonly IRepository<GLACGRP, int> _glacgrpRepository;
+		 private readonly IGLACGRPExcelExporter _glacgrpExcelExporter;
+		 
+
+		  public GLACGRPAppService(IRepository<GLACGRP, int> glacgrpRepository, IGLACGRPExcelExporter glacgrpExcelExporter ) 
+		  {
+			_glacgrpRepository = glacgrpRepository;
+			_glacgrpExcelExporter = glacgrpExcelExporter;
+			
+		  }
+
+		 public async Task<PagedResultDto<GetGLACGRPForViewDto>> GetAll(GetAllGLACGRPInput input)
+         {
+			
+			var filteredGLACGRP = _glacgrpRepository.GetAll()
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false   || e.AUDTUSER.Contains(input.Filter) || e.AUDTORG.Contains(input.Filter) || e.ACCTGRPDES.Contains(input.Filter) || e.SORTCODE.Contains(input.Filter))
+						.WhereIf(!string.IsNullOrWhiteSpace(input.ACCTGRPDESFilter),  e => e.ACCTGRPDES.ToLower() == input.ACCTGRPDESFilter.ToLower().Trim())
+						.WhereIf(!string.IsNullOrWhiteSpace(input.SORTCODEFilter),  e => e.SORTCODE.ToLower() == input.SORTCODEFilter.ToLower().Trim())
+						.WhereIf(input.MinGRPCODFilter != null, e => e.GRPCOD >= input.MinGRPCODFilter)
+						.WhereIf(input.MaxGRPCODFilter != null, e => e.GRPCOD <= input.MaxGRPCODFilter);
+
+			var pagedAndFilteredGLACGRP = filteredGLACGRP
+                .OrderBy(input.Sorting ?? "id asc")
+                .PageBy(input);
+
+			var glacgrp = from o in pagedAndFilteredGLACGRP
+                         select new GetGLACGRPForViewDto() {
+							GLACGRP = new GLACGRPDto
+							{
+                                Id = o.Id,
+                                ACCTGRPDES = o.ACCTGRPDES,
+                                SORTCODE = o.SORTCODE,
+                                GRPCOD = o.GRPCOD,
+                                ACCTGRPCOD =o.ACCTGRPCOD
+
+                            }
+						};
+
+            var totalCount = await filteredGLACGRP.CountAsync();
+
+            return new PagedResultDto<GetGLACGRPForViewDto>(
+                totalCount,
+                await glacgrp.ToListAsync()
+            );
+         }
+		 
+		 public async Task<GetGLACGRPForViewDto> GetGLACGRPForView(int id)
+         {
+            var glacgrp = await _glacgrpRepository.GetAsync(id);
+
+            var output = new GetGLACGRPForViewDto { GLACGRP = ObjectMapper.Map<GLACGRPDto>(glacgrp) };
+			
+            return output;
+         }
+		 
+		 [AbpAuthorize(AppPermissions.Pages_GLACGRP_Edit)]
+		 public async Task<GetGLACGRPForEditOutput> GetGLACGRPForEdit(EntityDto<int> input)
+         {
+            var glacgrp = await _glacgrpRepository.FirstOrDefaultAsync(input.Id);
+           
+		    var output = new GetGLACGRPForEditOutput {GLACGRP = ObjectMapper.Map<CreateOrEditGLACGRPDto>(glacgrp)};
+			
+            return output;
+         }
+
+		 public async Task CreateOrEdit(CreateOrEditGLACGRPDto input)
+         {
+            if(input.Id ==0)
+            {
+				await Create(input);
+                
+			}
+			else{
+				await Update(input);
+			}
+         }
+
+		 [AbpAuthorize(AppPermissions.Pages_GLACGRP_Create)]
+		 private async Task Create(CreateOrEditGLACGRPDto input)
+         {
+            var glacgrp = ObjectMapper.Map<GLACGRP>(input);
+
+			
+			if (AbpSession.TenantId != null)
+			{
+				glacgrp.TenantId = (int?) AbpSession.TenantId;
+			}
+		
+
+             if (glacgrp.Id !=null)
+             {
+                 glacgrp.Id = input.Id;
+             }
+
+            await _glacgrpRepository.InsertAsync(glacgrp);
+         }
+
+		 [AbpAuthorize(AppPermissions.Pages_GLACGRP_Edit)]
+		 private async Task Update(CreateOrEditGLACGRPDto input)
+         {
+            var glacgrp = await _glacgrpRepository.FirstOrDefaultAsync((int)input.Id);
+             ObjectMapper.Map(input, glacgrp);
+         }
+
+		 [AbpAuthorize(AppPermissions.Pages_GLACGRP_Delete)]
+         public async Task Delete(EntityDto<int> input)
+         {
+            await _glacgrpRepository.DeleteAsync(input.Id);
+         } 
+
+		public async Task<FileDto> GetGLACGRPToExcel(GetAllGLACGRPForExcelInput input)
+         {
+			
+			var filteredGLACGRP = _glacgrpRepository.GetAll()
+						.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false    || e.AUDTUSER.Contains(input.Filter) || e.AUDTORG.Contains(input.Filter) || e.ACCTGRPDES.Contains(input.Filter) || e.SORTCODE.Contains(input.Filter))
+						.WhereIf(!string.IsNullOrWhiteSpace(input.ACCTGRPDESFilter),  e => e.ACCTGRPDES.ToLower() == input.ACCTGRPDESFilter.ToLower().Trim())
+						.WhereIf(!string.IsNullOrWhiteSpace(input.SORTCODEFilter),  e => e.SORTCODE.ToLower() == input.SORTCODEFilter.ToLower().Trim())
+						.WhereIf(input.MinGRPCODFilter != null, e => e.GRPCOD >= input.MinGRPCODFilter)
+						.WhereIf(input.MaxGRPCODFilter != null, e => e.GRPCOD <= input.MaxGRPCODFilter);
+
+			var query = (from o in filteredGLACGRP
+                         select new GetGLACGRPForViewDto() { 
+							GLACGRP = new GLACGRPDto
+							{
+                                Id = o.Id,
+                                ACCTGRPDES = o.ACCTGRPDES,
+                                SORTCODE = o.SORTCODE,
+                                GRPCOD = o.GRPCOD,
+                                ACCTGRPCOD =o.ACCTGRPCOD
+							}
+						 });
+
+
+            var glacgrpListDtos = await query.ToListAsync();
+
+            return _glacgrpExcelExporter.ExportToFile(glacgrpListDtos);
+         }
+
+
+    }
+}

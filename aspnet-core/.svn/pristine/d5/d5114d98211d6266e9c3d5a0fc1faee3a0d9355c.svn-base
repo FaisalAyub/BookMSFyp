@@ -1,0 +1,26 @@
+
+using System;
+using Abp.Application.Services.Dto;
+
+namespace ERP.Books.Dtos
+{
+    public class GLBOOKSDto : EntityDto<int>
+    {
+		public int BookID { get; set; }
+
+		public string BookName { get; set; }
+
+		public int NormalEntry { get; set; }
+
+		public bool Integrated { get; set; }
+
+		public decimal? SysDate { get; set; }
+
+		public int? DbID { get; set; }
+
+		public short? Restricted { get; set; }
+
+
+
+    }
+}

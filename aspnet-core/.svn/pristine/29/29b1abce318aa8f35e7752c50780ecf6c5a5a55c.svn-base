@@ -1,0 +1,55 @@
+using System.Collections.Generic;
+using Abp.Runtime.Session;
+using Abp.Timing.Timezone;
+using ERP.DataExporting.Excel.EpPlus;
+using ERP.SourceCode.Dtos;
+using ERP.Dto;
+using ERP.Storage;
+
+namespace ERP.SourceCode.Exporting
+{
+    public class GLSRCEExcelExporter : EpPlusExcelExporterBase, IGLSRCEExcelExporter
+    {
+
+        private readonly ITimeZoneConverter _timeZoneConverter;
+        private readonly IAbpSession _abpSession;
+
+        public GLSRCEExcelExporter(
+            ITimeZoneConverter timeZoneConverter,
+            IAbpSession abpSession,
+			ITempFileCacheManager tempFileCacheManager) :  
+	base(tempFileCacheManager)
+        {
+            _timeZoneConverter = timeZoneConverter;
+            _abpSession = abpSession;
+        }
+
+        public FileDto ExportToFile(List<GetGLSRCEForViewDto> glsrce)
+        {
+            return CreateExcelPackage(
+                "GLSRCE.xlsx",
+                excelPackage =>
+                {
+                    var sheet = excelPackage.Workbook.Worksheets.Add(L("GLSRCE"));
+                    sheet.OutLineApplyStyle = true;
+
+                    AddHeader(
+                        sheet,
+                        L("SRCELEDGER"),
+                        L("SRCETYPE"),
+                        L("SRCEDESC")
+                        );
+
+                    AddObjects(
+                        sheet, 2, glsrce,
+                        _ => _.GLSRCE.SRCELEDGER,
+                        _ => _.GLSRCE.SRCETYPE,
+                        _ => _.GLSRCE.SRCEDESC
+                        );
+
+					
+
+                });
+        }
+    }
+}

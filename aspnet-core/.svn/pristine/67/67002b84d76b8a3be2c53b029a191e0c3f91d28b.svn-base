@@ -1,0 +1,55 @@
+using System.Collections.Generic;
+using Abp.Runtime.Session;
+using Abp.Timing.Timezone;
+using ERP.DataExporting.Excel.EpPlus;
+using ERP.GLCostCenter.Dtos;
+using ERP.Dto;
+using ERP.Storage;
+
+namespace ERP.GLCostCenter.Exporting
+{
+    public class GLCstCentExcelExporter : EpPlusExcelExporterBase, IGLCstCentExcelExporter
+    {
+
+        private readonly ITimeZoneConverter _timeZoneConverter;
+        private readonly IAbpSession _abpSession;
+
+        public GLCstCentExcelExporter(
+            ITimeZoneConverter timeZoneConverter,
+            IAbpSession abpSession,
+			ITempFileCacheManager tempFileCacheManager) :  
+	base(tempFileCacheManager)
+        {
+            _timeZoneConverter = timeZoneConverter;
+            _abpSession = abpSession;
+        }
+
+        public FileDto ExportToFile(List<GetGLCstCentForViewDto> glCstCent)
+        {
+            return CreateExcelPackage(
+                "GLCstCent.xlsx",
+                excelPackage =>
+                {
+                    var sheet = excelPackage.Workbook.Worksheets.Add(L("GLCstCent"));
+                    sheet.OutLineApplyStyle = true;
+
+                    AddHeader(
+                        sheet,
+                        L("CostCenterID"),
+                        L("CostCenter"),
+                        L("CCStructID")
+                        );
+
+                    AddObjects(
+                        sheet, 2, glCstCent,
+                        _ => _.GLCstCent.CostCenterID,
+                        _ => _.GLCstCent.CostCenter,
+                        _ => _.GLCstCent.CCStructID
+                        );
+
+					
+
+                });
+        }
+    }
+}

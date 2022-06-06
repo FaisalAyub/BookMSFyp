@@ -1,0 +1,240 @@
+<div [@routerTransition]>
+    <div class="kt-subheader kt-grid__item">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l("GLBOOKS")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("GLBOOKSHeaderInfo")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.GLBOOKS.Create')" (click)="createGLBOOKS()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewGLBOOKS")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+			
+                <form class="kt-form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getGLBOOKS()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="kt-separator kt-separator--border-dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="BookIDFilter">{{l("BookID")}}</label>
+									<input type="text" class="form-control" id="BookIDFilter" name="bookIDFilter" [(ngModel)]="bookIDFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="BookNameFilter">{{l("BookName")}}</label>
+									<input type="text" class="form-control" id="BookNameFilter" name="bookNameFilter" [(ngModel)]="bookNameFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinNormalEntryFilter">{{l("MinMax")}} {{l("NormalEntry")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinNormalEntryFilter" [(ngModel)]="minNormalEntryFilter" placeholder="{{l('MinValue')}}" name="minNormalEntryFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxNormalEntryFilter" placeholder="{{l('MaxValue')}}" name="maxNormalEntryFilter" />
+									</div>
+                                </div>
+                            </div>	
+							<div class="col-md-3">
+								<label for="IntegratedFilterSelect">{{l("Integrated")}}</label>
+								<select class="form-control" name="IntegratedFilter" id="IntegratedFilterSelect" [(ngModel)]="integratedFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinSysDateFilter">{{l("MinMax")}} {{l("SysDate")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinSysDateFilter" [(ngModel)]="minSysDateFilter" placeholder="{{l('MinValue')}}" name="minSysDateFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxSysDateFilter" placeholder="{{l('MaxValue')}}" name="maxSysDateFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinDbIDFilter">{{l("MinMax")}} {{l("DbID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinDbIDFilter" [(ngModel)]="minDbIDFilter" placeholder="{{l('MinValue')}}" name="minDbIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxDbIDFilter" placeholder="{{l('MaxValue')}}" name="maxDbIDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinRestrictedFilter">{{l("MinMax")}} {{l("Restricted")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinRestrictedFilter" [(ngModel)]="minRestrictedFilter" placeholder="{{l('MinValue')}}" name="minRestrictedFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxRestrictedFilter" placeholder="{{l('MaxValue')}}" name="maxRestrictedFilter" />
+									</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getGLBOOKS($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.GLBOOKS.Edit', 'Pages.GLBOOKS.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="bookID">
+                                        {{l('BookID')}}
+                                        <p-sortIcon field="glbooks.bookID"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="bookName">
+                                        {{l('BookName')}}
+                                        <p-sortIcon field="glbooks.bookName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="normalEntry">
+                                        {{l('NormalEntry')}}
+                                        <p-sortIcon field="glbooks.normalEntry"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="integrated">
+                                        {{l('Integrated')}}
+                                        <p-sortIcon field="glbooks.integrated"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sysDate">
+                                        {{l('SysDate')}}
+                                        <p-sortIcon field="glbooks.sysDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="dbID">
+                                        {{l('DbID')}}
+                                        <p-sortIcon field="glbooks.dbID"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="restricted">
+                                        {{l('Restricted')}}
+                                        <p-sortIcon field="glbooks.restricted"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.GLBOOKS.Edit', 'Pages.GLBOOKS.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewGLBOOKSModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.GLBOOKS.Edit')"
+														(click)="createOrEditGLBOOKSModal.show(record.glbooks.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.GLBOOKS.Delete')"
+														(click)="deleteGLBOOKS(record.glbooks)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('BookID')}}</span>
+											{{record.glbooks.bookID}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('BookName')}}</span>
+											{{record.glbooks.bookName}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('NormalEntry')}}</span>
+											{{record.glbooks.normalEntry}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Integrated')}}</span>
+                                        <div *ngIf="record.glbooks.integrated" class="text-center"><i class="fa fa-check-circle kt--font-success" title="True"></i></div>
+										<div *ngIf="!record.glbooks.integrated" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('SysDate')}}</span>
+											{{record.glbooks.sysDate}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('DbID')}}</span>
+											{{record.glbooks.dbID}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Restricted')}}</span>
+											{{record.glbooks.restricted}}
+										</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getGLBOOKS($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditGLBOOKSModal #createOrEditGLBOOKSModal (modalSave)="getGLBOOKS()"></createOrEditGLBOOKSModal>
+    <viewGLBOOKSModal #viewGLBOOKSModal></viewGLBOOKSModal>
+    
+</div>

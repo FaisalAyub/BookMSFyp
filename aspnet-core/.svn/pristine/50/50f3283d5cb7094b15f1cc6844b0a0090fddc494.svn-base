@@ -1,0 +1,40 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace ERP.Migrations
+{
+    public partial class Added_GLBOOKS : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "GLBOOKS",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    TenantId = table.Column<int>(nullable: true),
+                    BookID = table.Column<string>(nullable: false),
+                    BookName = table.Column<string>(nullable: false),
+                    NormalEntry = table.Column<int>(nullable: false),
+                    Integrated = table.Column<bool>(nullable: false),
+                    SysDate = table.Column<decimal>(nullable: true),
+                    DbID = table.Column<int>(nullable: true),
+                    Restricted = table.Column<short>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GLBOOKS", x => x.Id);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GLBOOKS_TenantId",
+                table: "GLBOOKS",
+                column: "TenantId");
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "GLBOOKS");
+        }
+    }
+}

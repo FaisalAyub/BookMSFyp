@@ -1,0 +1,11 @@
+using System.Collections.Generic;
+using ERP.GLCostCenter.Dtos;
+using ERP.Dto;
+
+namespace ERP.GLCostCenter.Exporting
+{
+    public interface IGLCstCentExcelExporter
+    {
+        FileDto ExportToFile(List<GetGLCstCentForViewDto> glCstCent);
+    }
+}

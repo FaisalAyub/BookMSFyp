@@ -1,0 +1,6 @@
+﻿{
+  "ConnectionStrings": {
+    "Default": "Server=192.168.50.68; Database=CNSERP; user id = dev ; password = dev123;"
+  },
+    "AbpZeroLicenseCode": "00UTcgiF7kDkgxyIkCStKZMw==78913e924a5d46a907e4f10ac912f147"
+}

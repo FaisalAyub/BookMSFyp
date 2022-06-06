@@ -1,0 +1,57 @@
+using System.Collections.Generic;
+using Abp.Runtime.Session;
+using Abp.Timing.Timezone;
+using ERP.DataExporting.Excel.EpPlus;
+using ERP.AccountGroup.Dtos;
+using ERP.Dto;
+using ERP.Storage;
+
+namespace ERP.AccountGroup.Exporting
+{
+    public class GLACGRPExcelExporter : EpPlusExcelExporterBase, IGLACGRPExcelExporter
+    {
+
+        private readonly ITimeZoneConverter _timeZoneConverter;
+        private readonly IAbpSession _abpSession;
+
+        public GLACGRPExcelExporter(
+            ITimeZoneConverter timeZoneConverter,
+            IAbpSession abpSession,
+			ITempFileCacheManager tempFileCacheManager) :  
+	base(tempFileCacheManager)
+        {
+            _timeZoneConverter = timeZoneConverter;
+            _abpSession = abpSession;
+        }
+
+        public FileDto ExportToFile(List<GetGLACGRPForViewDto> glacgrp)
+        {
+            return CreateExcelPackage(
+                "GLACGRP.xlsx",
+                excelPackage =>
+                {
+                    var sheet = excelPackage.Workbook.Worksheets.Add(L("GLACGRP"));
+                    sheet.OutLineApplyStyle = true;
+
+                    AddHeader(
+                        sheet,
+                        L("ACCTGRPCOD"),
+                        L("ACCTGRPDES"),
+                        L("SORTCODE"),
+                        L("GRPCOD")
+                        );
+
+                    AddObjects(
+                        sheet, 2, glacgrp,
+                        _ => _.GLACGRP.ACCTGRPCOD,
+                        _ => _.GLACGRP.ACCTGRPDES,
+                        _ => _.GLACGRP.SORTCODE,
+                        _ => _.GLACGRP.GRPCOD
+                        );
+
+					
+
+                });
+        }
+    }
+}

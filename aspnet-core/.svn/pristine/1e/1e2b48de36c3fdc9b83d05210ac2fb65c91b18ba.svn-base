@@ -1,0 +1,11 @@
+using System.Collections.Generic;
+using ERP.AccountGroup.Dtos;
+using ERP.Dto;
+
+namespace ERP.AccountGroup.Exporting
+{
+    public interface IGLACGRPExcelExporter
+    {
+        FileDto ExportToFile(List<GetGLACGRPForViewDto> glacgrp);
+    }
+}

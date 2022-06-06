@@ -1,0 +1,11 @@
+using System.Collections.Generic;
+using ERP.SourceCode.Dtos;
+using ERP.Dto;
+
+namespace ERP.SourceCode.Exporting
+{
+    public interface IGLSRCEExcelExporter
+    {
+        FileDto ExportToFile(List<GetGLSRCEForViewDto> glsrce);
+    }
+}

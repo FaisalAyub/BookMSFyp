@@ -1,0 +1,63 @@
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace ERP.Migrations
+{
+    public partial class Added_GLCstCent : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AlterColumn<int>(
+                name: "BookID",
+                table: "GLBOOKS",
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                table: "GLBOOKS",
+                nullable: false,
+                oldClrType: typeof(string))
+                .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            migrationBuilder.CreateTable(
+                name: "GLCstCent",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    TenantId = table.Column<int>(nullable: true),
+                    CostCenterID = table.Column<string>(nullable: false),
+                    CostCenter = table.Column<string>(nullable: false),
+                    CCStructID = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GLCstCent", x => x.Id);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GLCstCent_TenantId",
+                table: "GLCstCent",
+                column: "TenantId");
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "GLCstCent");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "BookID",
+                table: "GLBOOKS",
+                nullable: false,
+                oldClrType: typeof(int));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Id",
+                table: "GLBOOKS",
+                nullable: false,
+                oldClrType: typeof(int))
+                .OldAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+        }
+    }
+}

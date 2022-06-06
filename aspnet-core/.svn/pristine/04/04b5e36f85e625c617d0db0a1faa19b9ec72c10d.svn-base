@@ -1,0 +1,26 @@
+using System;
+using System.Threading.Tasks;
+using Abp.Application.Services;
+using Abp.Application.Services.Dto;
+using ERP.GLCostCenter.Dtos;
+using ERP.Dto;
+
+namespace ERP.GLCostCenter
+{
+    public interface IGLCstCentAppService : IApplicationService 
+    {
+        Task<PagedResultDto<GetGLCstCentForViewDto>> GetAll(GetAllGLCstCentInput input);
+
+        Task<GetGLCstCentForViewDto> GetGLCstCentForView(int id);
+
+		Task<GetGLCstCentForEditOutput> GetGLCstCentForEdit(EntityDto<int> input);
+
+		Task CreateOrEdit(CreateOrEditGLCstCentDto input);
+
+		Task Delete(EntityDto<int> input);
+
+		Task<FileDto> GetGLCstCentToExcel(GetAllGLCstCentForExcelInput input);
+
+		
+    }
+}

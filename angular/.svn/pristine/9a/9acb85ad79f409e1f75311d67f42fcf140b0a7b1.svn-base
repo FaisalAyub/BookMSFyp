@@ -1,0 +1,59 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { GLJEHsComponent } from './journelEntry/gljeHs/gljeHs.component';
+import { ViewGLJEHModalComponent } from './journelEntry/gljeHs/view-gljeh-modal.component';
+import { CreateOrEditGLJEHModalComponent } from './journelEntry/gljeHs/create-or-edit-gljeh-modal.component';
+import { AutoCompleteModule } from 'primeng/primeng';
+import { PaginatorModule } from 'primeng/primeng';
+import { EditorModule } from 'primeng/primeng';
+import { InputMaskModule } from 'primeng/primeng';import { FileUploadModule } from 'primeng/primeng';
+import { TableModule } from 'primeng/table';
+
+import { UtilsModule } from '@shared/utils/utils.module';
+import { CountoModule } from 'angular2-counto';
+import { ModalModule, TabsModule, TooltipModule, BsDropdownModule, PopoverModule } from 'ngx-bootstrap';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { MainRoutingModule } from './main-routing.module';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
+import { BsDatepickerModule, BsDatepickerConfig, BsDaterangepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
+
+NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
+
+@NgModule({
+    imports: [
+		FileUploadModule,
+		AutoCompleteModule,
+		PaginatorModule,
+		EditorModule,
+		InputMaskModule,		TableModule,
+
+        CommonModule,
+        FormsModule,
+        ModalModule,
+        TabsModule,
+        TooltipModule,
+        AppCommonModule,
+        UtilsModule,
+        MainRoutingModule,
+        CountoModule,
+        NgxChartsModule,
+        BsDatepickerModule.forRoot(),
+        BsDropdownModule.forRoot(),
+        PopoverModule.forRoot()
+    ],
+    declarations: [
+		GLJEHsComponent,
+		ViewGLJEHModalComponent,		CreateOrEditGLJEHModalComponent,
+        DashboardComponent
+    ],
+    providers: [
+        { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
+        { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },
+        { provide: BsLocaleService, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerLocale }
+    ]
+})
+export class MainModule { }
