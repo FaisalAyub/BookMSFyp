@@ -1,3 +1,4 @@
+using ERP.Entities;
 using Abp.IdentityServer4;
 using Abp.Zero.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ namespace ERP.EntityFrameworkCore
 {
     public class ERPDbContext : AbpZeroDbContext<Tenant, Role, User, ERPDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<Book> Books { get; set; }
+
 
 
         /* Define an IDbSet for each entity of the application */

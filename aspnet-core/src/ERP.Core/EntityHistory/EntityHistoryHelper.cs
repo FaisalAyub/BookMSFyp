@@ -1,4 +1,5 @@
-﻿using System;
+using ERP.Entities;
+using System;
 using System.Linq;
 using Abp.Organizations;
 using ERP.Authorization.Roles;
@@ -12,6 +13,7 @@ namespace ERP.EntityHistory
 
         public static readonly Type[] HostSideTrackedTypes =
         {
+            typeof(Book),
             typeof(OrganizationUnit), typeof(Role), typeof(Tenant)
         };
 

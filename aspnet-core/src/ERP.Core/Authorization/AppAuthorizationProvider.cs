@@ -30,6 +30,13 @@ namespace ERP.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var books = pages.CreateChildPermission(AppPermissions.Pages_Books, L("Books"), multiTenancySides: MultiTenancySides.Host);
+            books.CreateChildPermission(AppPermissions.Pages_Books_Create, L("CreateNewBook"), multiTenancySides: MultiTenancySides.Host);
+            books.CreateChildPermission(AppPermissions.Pages_Books_Edit, L("EditBook"), multiTenancySides: MultiTenancySides.Host);
+            books.CreateChildPermission(AppPermissions.Pages_Books_Delete, L("DeleteBook"), multiTenancySides: MultiTenancySides.Host);
+
+
+
             //var glacgrp = pages.CreateChildPermission(AppPermissions.Pages_GLACGRP, L("GLACGRP"));
             //glacgrp.CreateChildPermission(AppPermissions.Pages_GLACGRP_Create, L("CreateNewGLACGRP"));
             //glacgrp.CreateChildPermission(AppPermissions.Pages_GLACGRP_Edit, L("EditGLACGRP"));

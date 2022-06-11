@@ -28,7 +28,7 @@
 					"type" : "bool",
 					"content" : "
 								<div class=\"m-checkbox-list\">
-									<label for=\"{{Entity_Name_Here}}_{{Property_Name_Here}}\" class=\"kt-checkbox\">
+									<label for=\"{{Entity_Name_Here}}_{{Property_Name_Here}}\" class=\"m-checkbox\">
 										<input id=\"{{Entity_Name_Here}}_{{Property_Name_Here}}\" type=\"checkbox\" name=\"{{property_Name_Here}}\" value=\"true\" @Html.Raw(Model.{{Entity_Name_Here}}.{{Property_Name_Here}} ?\"checked=\\\"checked\\\"\":\"\") />
 										@L(\"{{Property_Name_Here}}\")
 										<span></span>
@@ -72,18 +72,18 @@
 											<button class=\"btn btn-primary blue\" id=\"Open{{NP_Foreign_Entity_Name_Here}}{{NP_Duplication_Number_Here}}LookupTableButton\" type=\"button\"><i class=\"fa fa-search\"></i> @L(\"Pick\")</button>
 										</div> 
 										<div class=\"input-group-prepend\">
-											<button class=\"btn btn-danger btn-icon\" type=\"button\" id=\"Clear{{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}Button\"><i class=\"fa fa-times\"></i></button>
+											<button class=\"btn btn-danger\" type=\"button\" id=\"Clear{{NP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}Button\"><i class=\"fa fa-times\"></i></button>
 										</div>
 									</div>
 								</div>
 
 								@if (Model.IsEditMode)
 								{
-									<input class=\"form-control\" id=\"{{Entity_Name_Here}}_{{NP_Name_Here}}\" value=\"@Model.{{Entity_Name_Here}}.{{NP_Name_Here}}\" type=\"text\" name=\"{{nP_Name_Here}}\" {{NP_IsNullable_Required_Here}} hidden/>
+									<input class=\"form-control\" value=\"@Model.{{Entity_Name_Here}}.{{NP_Name_Here}}\" type=\"text\" name=\"{{nP_Name_Here}}\" {{NP_IsNullable_Required_Here}} hidden/>
 								}
 								 else
 								{ 
-									<input class=\"form-control\" id=\"{{Entity_Name_Here}}_{{NP_Name_Here}}\" value=\"\" type=\"text\" name=\"{{nP_Name_Here}}\" {{NP_IsNullable_Required_Here}} hidden/>
+									<input class=\"form-control\" value=\"\" type=\"text\" name=\"{{nP_Name_Here}}\" {{NP_IsNullable_Required_Here}} hidden/>
 								}
 
 "

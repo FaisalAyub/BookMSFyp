@@ -2,24 +2,24 @@
 @using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}
 @using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Startup
 @using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.Common.Modals
-@model {{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableViewModel
+@model {{NP_Foreign_Entity_Name_Here}}LookupTableViewModel
 
 @section Scripts
     {
-    <script abp-src="/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/_{{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal.js" asp-append-version="true"></script>
+    <script abp-src="/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/_{{NP_Foreign_Entity_Name_Here}}LookupTableModal.js" asp-append-version="true"></script>
 }
 
 @await Html.PartialAsync("~/Areas/{{App_Area_Name_Here}}/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Pick{{NP_Foreign_Entity_Name_Here}}")))
 
 
 
-<div class="kt-content">
-    <div class="kt-portlet">
-        <div class="kt-portlet__body">
-            <div class="kt-form">
-                <div class="row align-items-center mb-4">
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__body">
+            <div class="m-form m-form--label-align-right">
+                <div class="row align-items-center m--margin-bottom-10">
                     <div class="col-xl-12">
-                        <div class="kt-group align-items-center">
+                        <div class="form-group m-form__group align-items-center">
                             <div class="input-group">
                                 <input type="text" id="{{NP_Foreign_Entity_Name_Here}}TableFilter" class="form-control m-input" placeholder="@L("SearchWithThreeDot")" value="@Model.FilterText">
                                 <span class="input-group-btn">

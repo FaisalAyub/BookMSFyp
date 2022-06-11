@@ -1,28 +1,27 @@
 ﻿<div [@routerTransition]>
-    <div class="kt-subheader kt-grid__item">
-        <div class="kt-subheader__main">
-            <h3 class="kt-subheader__title">
-                <span>{{l("{{Entity_Name_Plural_Here}}")}}</span>
-            </h3>
-            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
-            <span class="kt-subheader__desc">
-                {{l("{{Entity_Name_Plural_Here}}HeaderInfo")}}
-            </span>
-        </div>
-        <div class="kt-subheader__toolbar">
-            <div class="kt-subheader__wrapper">
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("{{Entity_Name_Plural_Here}}")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("{{Entity_Name_Plural_Here}}HeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
 				{{Get_Excel_Button_Here}}<button *ngIf="isGranted('{{Permission_Value_Here}}.Create')" (click)="create{{Entity_Name_Here}}()" 
 			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNew{{Entity_Name_Here}}")}}</button>
             </div>
         </div>
     </div>
-    <div class="kt-content">
-        <div class="kt-portlet kt-portlet--mobile">
-            <div class="kt-portlet__body">
-			
-                <form class="kt-form" autocomplete="off">
-                    <div>
-                        <div class="row align-items-center">
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
                             <div class="col-xl-12">
                                 <div class="form-group m-form__group align-items-center">
                                     <div class="input-group">
@@ -34,15 +33,15 @@
                                 </div>
                             </div>
                         </div>
-						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
 						 	<div class="col-md-12">
-						         <div class="kt-separator kt-separator--border-dashed"></div>
+						         <div class="m-separator m-separator--dashed"></div>
 						     </div>
 
 {{Property_Filter_Template_Here}}{{NP_Filter_Template_Here}}
 
                         </div>
-                        <div class="row mb-2">
+                        <div class="row margin-bottom-10">
                             <div class="col-sm-12">
                                 <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
                                 <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
@@ -53,7 +52,7 @@
 
                 <div class="row align-items-center">
                     <!--<Primeng-Datatable-Start>-->
-                    <div class="primeng-datatable-container col-12"
+                    <div class="primeng-datatable-container"
                          [busyIf]="primengTableHelper.isLoading">
                         <p-table #dataTable
                                      (onLazyLoad)="get{{Entity_Name_Plural_Here}}($event)"

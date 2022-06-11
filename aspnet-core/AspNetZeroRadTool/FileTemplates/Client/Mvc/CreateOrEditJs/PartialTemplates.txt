@@ -6,9 +6,9 @@
 					{
 					"relation" : "single",
 					"preventDuplicate":true,
-					"content" : "        var _{{Entity_Name_Here}}{{nP_Foreign_Entity_Name_Here}}LookupTableModal = new app.ModalManager({
+					"content" : "        var _{{nP_Foreign_Entity_Name_Here}}LookupTableModal = new app.ModalManager({
             viewUrl: abp.appPath + '{{App_Area_Name_Here}}/{{Entity_Name_Plural_Here}}/{{NP_Foreign_Entity_Name_Here}}LookupTableModal',
-            scriptUrl: abp.appPath + 'view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/_{{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal.js',
+            scriptUrl: abp.appPath + 'view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/_{{NP_Foreign_Entity_Name_Here}}LookupTableModal.js',
             modalClass: '{{NP_Foreign_Entity_Name_Here}}LookupTableModal'
         });"
 					}
@@ -23,7 +23,7 @@
 
             var {{entity_Name_Here}} = _${{entity_Name_Here}}InformationForm.serializeFormToObject();
 
-            _{{Entity_Name_Here}}{{nP_Foreign_Entity_Name_Here}}LookupTableModal.open({ id: {{entity_Name_Here}}.{{nP_Name_Here}}, displayName: {{entity_Name_Here}}.{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}} }, function (data) {
+            _{{nP_Foreign_Entity_Name_Here}}LookupTableModal.open({ id: {{entity_Name_Here}}.{{nP_Name_Here}}, displayName: {{entity_Name_Here}}.{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}} }, function (data) {
                 _${{entity_Name_Here}}InformationForm.find('input[name={{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}]').val(data.displayName); 
                 _${{entity_Name_Here}}InformationForm.find('input[name={{nP_Name_Here}}]').val(data.id); 
             });
@@ -35,19 +35,6 @@
         });
 		
 "
-					}
-				]
-		},
-		{
-			"placeholder" : "{{NP_Required_Validation_Here}}",
-			"templates" : [
-					{
-					"relation" : "single",
-					"content" : "
-            if ($('#{{Entity_Name_Here}}_{{NP_Name_Here}}').prop('required') && $('#{{Entity_Name_Here}}_{{NP_Name_Here}}').val() == '') {
-                abp.message.error(app.localize('{0}IsRequired', app.localize('{{NP_Foreign_Entity_Name_Here}}')));
-                return;
-            }"
 					}
 				]
 		}

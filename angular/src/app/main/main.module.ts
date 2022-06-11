@@ -2,6 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { BooksComponent } from './entities/books/books.component';
+import { ViewBookModalComponent } from './entities/books/view-book-modal.component';
+import { CreateOrEditBookModalComponent } from './entities/books/create-or-edit-book-modal.component';
+import { UserLookupTableModalComponent } from './entities/books/user-lookup-table-modal.component';
+
 import { AutoCompleteModule } from 'primeng/primeng';
 import { PaginatorModule } from 'primeng/primeng';
 import { EditorModule } from 'primeng/primeng';
@@ -43,7 +48,10 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         BsDropdownModule.forRoot(),
         PopoverModule.forRoot()
     ],
-    declarations: [ 
+    declarations: [
+		BooksComponent,
+		ViewBookModalComponent,		CreateOrEditBookModalComponent,
+    UserLookupTableModalComponent, 
         DashboardComponent
     ],
     providers: [

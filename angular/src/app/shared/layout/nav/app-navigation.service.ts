@@ -31,6 +31,8 @@ export class AppNavigationService {
             // new AppMenuItem('GLCstCent', 'Pages.GLCstCent', 'flaticon-more', '/app/main/glCostCenter/glCstCent'),
             
             // new AppMenuItem('GLACGRP', 'Pages.GLACGRP', 'flaticon-more', '/app/main/accountGroup/glacgrp'),
+            
+            new AppMenuItem('Books', 'Pages.Books', 'flaticon-book', '/app/main/entities/books'),
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),

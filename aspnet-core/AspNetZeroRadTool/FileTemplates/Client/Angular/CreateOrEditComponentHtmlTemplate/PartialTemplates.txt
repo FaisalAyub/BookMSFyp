@@ -28,7 +28,7 @@
 					"type" : "bool",
 					"content" : "
 								<br/><div class=\"m-checkbox-list\">
-									<label for=\"{{Entity_Name_Here}}_{{Property_Name_Here}}\" class=\"kt-checkbox\">
+									<label for=\"{{Entity_Name_Here}}_{{Property_Name_Here}}\" class=\"m-checkbox\">
 										<input id=\"{{Entity_Name_Here}}_{{Property_Name_Here}}\" type=\"checkbox\" name=\"{{Property_Name_Here}}\" [(ngModel)]=\"{{entity_Name_Here}}.{{property_Name_Here}}\"> 
 										{{l(\"{{Property_Name_Here}}\")}}
 										<span></span>
@@ -71,7 +71,7 @@
                             <div class=\"input-group-append\">
                                 <button class=\"btn btn-primary blue\" (click)=\"openSelect{{NP_Foreign_Entity_Name_Here}}Modal{{NP_Duplication_Number_Here}}()\" type=\"button\"><i class=\"fa fa-search\"></i> {{l(\"Pick\")}}</button>
                             </div> <div class=\"input-group-prepend\">
-                                <button class=\"btn btn-danger btn-icon\" type=\"button\" (click)=\"set{{NP_Name_Here}}Null()\"><i class=\"fa fa-times\"></i></button>
+                                <button class=\"btn btn-danger\" type=\"button\" (click)=\"set{{NP_Name_Here}}Null()\"><i class=\"fa fa-times\"></i></button>
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
 					{
 					"relation" : "single",
 					"preventDuplicate":true,
-					"content" : "<{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal #{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}} (modalSave)=\"getNew{{NP_Name_Here}}()\"></{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal>
+					"content" : "<{{nP_Foreign_Entity_Name_Here}}LookupTableModal #{{nP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}} (modalSave)=\"getNew{{NP_Name_Here}}()\"></{{nP_Foreign_Entity_Name_Here}}LookupTableModal>
 		 "
 					}
 				]

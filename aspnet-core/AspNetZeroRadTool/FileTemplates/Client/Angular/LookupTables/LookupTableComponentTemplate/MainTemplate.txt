@@ -7,16 +7,16 @@ import { Paginator } from 'primeng/components/paginator/paginator';
 import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
 
 @Component({
-    selector: '{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal',
-    styleUrls: ['./{{entity_Name_Here}}-{{nP_Foreign_Entity_Name_Here}}-lookup-table-modal.component.less'],
+    selector: '{{nP_Foreign_Entity_Name_Here}}LookupTableModal',
+    styleUrls: ['./{{nP_Foreign_Entity_Name_Here}}-lookup-table-modal.component.less'],
     encapsulation: ViewEncapsulation.None,
-    templateUrl: './{{entity_Name_Here}}-{{nP_Foreign_Entity_Name_Here}}-lookup-table-modal.component.html'
+    templateUrl: './{{nP_Foreign_Entity_Name_Here}}-lookup-table-modal.component.html'
 })
-export class {{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModalComponent extends AppComponentBase {
+export class {{NP_Foreign_Entity_Name_Here}}LookupTableModalComponent extends AppComponentBase {
 
-    @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
-    @ViewChild('dataTable', { static: true }) dataTable: {{DataTable_Dec_Here}}Table;
-    @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('createOrEditModal') modal: ModalDirective;
+    @ViewChild('dataTable') dataTable: {{DataTable_Dec_Here}}Table;
+    @ViewChild('paginator') paginator: Paginator;
 
     filterText = '';
     id: {{NP_Id_Type_TS_Here}};

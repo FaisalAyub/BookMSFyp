@@ -13,18 +13,10 @@
 "
 					},
 					{
-					"type" : "DateTime",
-					"content" : "                    <div class=\"col-6 mb-3\">
-                        <h6>{{l(\"{{Property_Name_Here}}\")}} :</h6>
-                        {{ item.{{entity_Name_Here}}.{{property_Name_Here}} | momentFormat:'YYYY-MM-DD HH:mm:ss' }}
-                    </div>
-"
-					},
-					{
 					"type" : "default",
 					"content" : "                    <div class=\"col-6 mb-3\">
                         <h6>{{l(\"{{Property_Name_Here}}\")}} :</h6>
-                        {{ item.{{entity_Name_Here}}.{{property_Name_Here}} }}
+                        {{item.{{entity_Name_Here}}.{{property_Name_Here}}}}
                     </div>
 "
 					}

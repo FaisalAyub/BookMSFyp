@@ -9,7 +9,8 @@
 					"content" : ",
 					{
 						targets: {{Combined_Loop_Index}},
-						 data: \"{{entity_Name_Here}}.{{property_Name_Here}}\" {{Datetime_Formatter}} {{Bool_Formatter}} {{Enum_Formatter}}
+						 data: \"{{entity_Name_Here}}.{{property_Name_Here}}\",
+						 name: \"{{property_Name_Here}}\" {{Datetime_Formatter}} {{Bool_Formatter}} {{Enum_Formatter}}
 					}"
 					}
 				]
@@ -47,7 +48,8 @@
 					"content" : ",
 					{
 						targets: {{Combined_Loop_Index}},
-						 data: \"{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}\" 
+						 data: \"{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}}\" ,
+						 name: \"{{nP_Object_Name_Here}}Fk.{{nP_Display_Property_Name_Here}}\" 
 					}"}
 				]
 		},
@@ -81,7 +83,7 @@
 			"content": ",
 						render: function ({{property_Name_Here}}) {
 							if ({{property_Name_Here}}) {
-								return '<div class=\"text-center\"><i class=\"fa fa-check-circle kt--font-success\" title=\"True\"></i></div>';
+								return '<div class=\"text-center\"><i class=\"fa fa-check-circle m--font-success\" title=\"True\"></i></div>';
 							}
 							return '<div class=\"text-center\"><i class=\"fa fa-times-circle\" title=\"False\"></i></div>';
 					}

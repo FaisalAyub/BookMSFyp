@@ -105,7 +105,7 @@
 					{
 					"relation" : "single",
 					"preventDuplicate":true,
-					"content" : "import { {{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModalComponent } from './{{entity_Name_Here}}-{{nP_Foreign_Entity_Name_Here}}-lookup-table-modal.component';
+					"content" : "import { {{NP_Foreign_Entity_Name_Here}}LookupTableModalComponent } from './{{nP_Foreign_Entity_Name_Here}}-lookup-table-modal.component';
 "
 					}
 				]
@@ -115,7 +115,7 @@
 			"templates" : [
 					{
 					"relation" : "single",
-					"content" : "    @ViewChild('{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}', { static: true }) {{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}: {{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModalComponent;
+					"content" : "    @ViewChild('{{nP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}') {{nP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}: {{NP_Foreign_Entity_Name_Here}}LookupTableModalComponent;
 "
 					}
 				]
@@ -126,9 +126,9 @@
 					{
 					"relation" : "single",
 					"content" : "        openSelect{{NP_Foreign_Entity_Name_Here}}Modal{{NP_Duplication_Number_Here}}() {
-        this.{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.id = this.{{entity_Name_Here}}.{{nP_Name_Here}};
-        this.{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.displayName = this.{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}};
-        this.{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.show();
+        this.{{nP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.id = this.{{entity_Name_Here}}.{{nP_Name_Here}};
+        this.{{nP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.displayName = this.{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}};
+        this.{{nP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.show();
     }
 "
 					}
@@ -153,8 +153,8 @@
 					{
 					"relation" : "single",
 					"content" : "        getNew{{NP_Name_Here}}() {
-        this.{{entity_Name_Here}}.{{nP_Name_Here}} = this.{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.id;
-        this.{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}} = this.{{entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.displayName;
+        this.{{entity_Name_Here}}.{{nP_Name_Here}} = this.{{nP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.id;
+        this.{{nP_Foreign_Entity_Name_Here}}{{NP_Display_Property_Name_Here}}{{NP_Duplication_Number_Here}} = this.{{nP_Foreign_Entity_Name_Here}}LookupTableModal{{NP_Duplication_Number_Here}}.displayName;
     }
 "
 					}

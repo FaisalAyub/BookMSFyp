@@ -32,10 +32,9 @@
 					"content" : "
                             <div class=\"col-md-3\">
                                     <div class=\"form-group\">
-										<label for=\"Min{{Property_Name_Here}}FilterId\">@L(\"{{Property_Name_Here}}Range\")</label>
+										<label for=\"Min{{Property_Name_Here}}FilterId\">@L(\"MinMax\") @L(\"{{Property_Name_Here}}\")</label>
 										<div class=\"input-group\">
 											<input class=\"form-control m-input date-picker\" type=\"text\" placeholder=\"@L(\"MinValue\")\"  id=\"Min{{Property_Name_Here}}FilterId\">
-											<span style=\"line-height: 40px;padding: 0 15px 0 15px;\"> &mdash; </span>
 											<input class=\"form-control m-input date-picker\" type=\"text\" placeholder=\"@L(\"MaxValue\")\"  id=\"Max{{Property_Name_Here}}FilterId\">
 										</div>
 									</div>

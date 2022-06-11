@@ -12,7 +12,7 @@ import * as moment from 'moment';
 })
 export class CreateOrEdit{{Entity_Name_Here}}ModalComponent extends AppComponentBase {
 
-    @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
+    @ViewChild('createOrEditModal') modal: ModalDirective;
 {{NP_Looped_ViewChild_Here}}
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();

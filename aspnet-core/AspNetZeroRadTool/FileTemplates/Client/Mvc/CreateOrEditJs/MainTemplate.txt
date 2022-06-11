@@ -26,7 +26,7 @@
         this.save = function () {
             if (!_${{entity_Name_Here}}InformationForm.valid()) {
                 return;
-            }{{NP_Required_Validation_Here}}
+            }
 
             var {{entity_Name_Here}} = _${{entity_Name_Here}}InformationForm.serializeFormToObject();
 			

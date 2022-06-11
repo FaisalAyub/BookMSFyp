@@ -32,14 +32,14 @@
 					"content" : "        [AbpMvcAuthorize(AppPermissions.{{Permission_Name_Here}}_Create, AppPermissions.{{Permission_Name_Here}}_Edit)]
         public PartialViewResult {{NP_Foreign_Entity_Name_Here}}LookupTableModal({{NP_Id_Type_Here}}? id, string displayName)
         {
-            var viewModel = new {{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableViewModel()
+            var viewModel = new {{NP_Foreign_Entity_Name_Here}}LookupTableViewModel()
             {
                 Id = id{{NP_Id_Type_ToStringIfNeeded_Here}},
                 DisplayName = displayName,
                 FilterText = \"\"
             };
 
-            return PartialView(\"_{{Entity_Name_Here}}{{NP_Foreign_Entity_Name_Here}}LookupTableModal\", viewModel);
+            return PartialView(\"_{{NP_Foreign_Entity_Name_Here}}LookupTableModal\", viewModel);
         }
 "
 					}

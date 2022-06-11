@@ -148,7 +148,7 @@ import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistor
 			"placeholder": "{{EntityTypeHistoryModal_Dev_Here}}",
 			"condition": "{{Entity_History_Here}} == true",
 			"content": "
-    @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;"
+    @ViewChild('entityTypeHistoryModal') entityTypeHistoryModal: EntityTypeHistoryModalComponent;"
 		},
 		{
 			"placeholder": "{{EntityTypeHistoryModal_Open_Here}}",
@@ -173,7 +173,7 @@ import { View{{Entity_Name_Here}}ModalComponent } from './view-{{entity_Name_Her
 			"placeholder": "{{View_Component_Dec_Here}}",
 			"condition": "{{Create_View_Only_Here}} == true",
 			"content": "
-    @ViewChild('view{{Entity_Name_Here}}ModalComponent', { static: true }) view{{Entity_Name_Here}}Modal: View{{Entity_Name_Here}}ModalComponent;"
+    @ViewChild('view{{Entity_Name_Here}}ModalComponent') view{{Entity_Name_Here}}Modal: View{{Entity_Name_Here}}ModalComponent;"
 		},
 		{
 			"placeholder": "{{TurboTable_Import_Here}}",

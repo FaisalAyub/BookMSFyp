@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="Entities">Entities</text>
+    <text name="Book">Book</text>
+    <text name="Title">Title</text>
+    <text name="ISBN">I s b n</text>
+    <text name="Author">Author</text>
+    <text name="Description">Description</text>
+    <text name="Publisher">Publisher</text>
+    <text name="Quantity">Quantity</text>
+    <text name="BooksHeaderInfo">Books header info</text>
+    <text name="CreateNewBook">Create new book</text>
+    <text name="EditBook">Edit book</text>
+    <text name="DeleteBook">Delete book</text>
+    <text name="PickUser">Pick user</text>
+    <text name="MinMax">Min-Max</text>
+
     <text name="AccountGroup">Account group</text>
     <text name="GLACGRP">Account group</text>
     <text name="ACCTGRPCOD">Account group</text>
