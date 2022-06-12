@@ -100,15 +100,15 @@ namespace ERP.Authorization.Accounts
                 input.EmailAddress,
                 input.UserName,
                 input.Password,
-                false,
+                true,
                 AppUrlService.CreateEmailActivationUrlFormat(AbpSession.TenantId)
             );
-
-            var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
+            user.IsActive = true;
+            //var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
 
             return new RegisterOutput
             {
-                CanLogin = user.IsActive && (user.IsEmailConfirmed || !isEmailConfirmationRequiredForLogin)
+                CanLogin = user.IsActive && (user.IsEmailConfirmed)
             };
         }
 

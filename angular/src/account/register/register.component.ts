@@ -49,10 +49,10 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
     }
 
     save(): void {
-        if (this.useCaptcha && !this.model.captchaResponse) {
-            this.message.warn(this.l('CaptchaCanNotBeEmpty'));
-            return;
-        }
+        // if (this.useCaptcha && !this.model.captchaResponse) {
+        //     this.message.warn(this.l('CaptchaCanNotBeEmpty'));
+        //     return;
+        // }
 
         this.saving = true;
         this._accountService.register(this.model)
