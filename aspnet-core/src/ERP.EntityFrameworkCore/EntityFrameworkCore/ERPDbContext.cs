@@ -1,4 +1,4 @@
-using ERP.Entities;
+﻿using ERP.Entities;
 using Abp.IdentityServer4;
 using Abp.Zero.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +16,9 @@ namespace ERP.EntityFrameworkCore
 {
     public class ERPDbContext : AbpZeroDbContext<Tenant, Role, User, ERPDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<OrderItem> OrderItems { get; set; }
+
         public virtual DbSet<Book> Books { get; set; }
-
-
 
         /* Define an IDbSet for each entity of the application */
 
@@ -39,15 +39,13 @@ namespace ERP.EntityFrameworkCore
         public ERPDbContext(DbContextOptions<ERPDbContext> options)
             : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-           
-            
             modelBuilder.Entity<BinaryObject>(b =>
             {
                 b.HasIndex(e => new { e.TenantId });

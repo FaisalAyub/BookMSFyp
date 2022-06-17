@@ -1162,6 +1162,39 @@ namespace ERP.Migrations
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("ERP.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookId");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<int>("Price");
+
+                    b.Property<int>("Quantity");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("ERP.Friendships.Friendship", b =>
                 {
                     b.Property<long>("Id")
@@ -1545,6 +1578,14 @@ namespace ERP.Migrations
                     b.HasOne("ERP.Authorization.Users.User", "OwnerFk")
                         .WithMany()
                         .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ERP.Entities.OrderItem", b =>
+                {
+                    b.HasOne("ERP.Entities.Book", "BookFk")
+                        .WithMany()
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

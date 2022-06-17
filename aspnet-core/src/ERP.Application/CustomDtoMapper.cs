@@ -1,4 +1,4 @@
-using ERP.Entities.Dtos;
+﻿using ERP.Entities.Dtos;
 using ERP.Entities;
 using Abp.Application.Editions;
 using Abp.Application.Features;
@@ -43,9 +43,11 @@ namespace ERP
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
-           configuration.CreateMap<CreateOrEditBookDto, Book>();
-           configuration.CreateMap<Book, BookDto>();
- 
+            configuration.CreateMap<CreateOrEditOrderItemDto, OrderItem>().ReverseMap();
+            configuration.CreateMap<OrderItemDto, OrderItem>().ReverseMap();
+            configuration.CreateMap<CreateOrEditBookDto, Book>();
+            configuration.CreateMap<Book, BookDto>();
+
             //Inputs
             configuration.CreateMap<CheckboxInputType, FeatureInputTypeDto>();
             configuration.CreateMap<SingleLineStringInputType, FeatureInputTypeDto>();
@@ -86,7 +88,6 @@ namespace ERP
             configuration.CreateMap<Edition, EditionEditDto>();
             configuration.CreateMap<Edition, SubscribableEdition>();
             configuration.CreateMap<Edition, EditionSelectDto>();
-
 
             //Payment
             configuration.CreateMap<SubscriptionPaymentDto, SubscriptionPayment>().ReverseMap();

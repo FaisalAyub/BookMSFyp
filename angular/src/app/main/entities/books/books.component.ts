@@ -1,6 +1,5 @@
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Http } from '@angular/http';
+import { ActivatedRoute } from '@angular/router'; 
 import { BooksServiceProxy, BookDto  } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -23,11 +22,11 @@ import * as moment from 'moment';
 })
 export class BooksComponent extends AppComponentBase {
 
-    @ViewChild('createOrEditBookModal') createOrEditBookModal: CreateOrEditBookModalComponent;
-    @ViewChild('viewBookModalComponent') viewBookModal: ViewBookModalComponent;
-    @ViewChild('entityTypeHistoryModal') entityTypeHistoryModal: EntityTypeHistoryModalComponent;
-    @ViewChild('dataTable') dataTable: Table;
-    @ViewChild('paginator') paginator: Paginator;
+    @ViewChild('createOrEditBookModal', {static: true}) createOrEditBookModal: CreateOrEditBookModalComponent;
+    @ViewChild('viewBookModalComponent', {static: true}) viewBookModal: ViewBookModalComponent;
+    @ViewChild('entityTypeHistoryModal', {static: true}) entityTypeHistoryModal: EntityTypeHistoryModalComponent;
+    @ViewChild('dataTable', {static: true}) dataTable: Table;
+    @ViewChild('paginator', {static: true}) paginator: Paginator;
 
     advancedFiltersAreShown = false;
     filterText = '';

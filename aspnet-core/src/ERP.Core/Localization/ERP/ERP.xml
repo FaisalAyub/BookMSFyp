@@ -1,6 +1,16 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="Entities">Entities</text>
+  <texts>    <text name="OrderItem">Order item</text>
+    <text name="ERP.Entities.OrderItem">OrderItem</text>
+    <text name="OrderItemsHeaderInfo">Order items header info</text>
+    <text name="CreateNewOrderItem">Create new order item</text>
+    <text name="EditOrderItem">Edit order item</text>
+    <text name="DeleteOrderItem">Delete order item</text>
+    <text name="OrderItems">Order items</text>
+    <text name="BookTitle">Book title</text>
+    <text name="PickBook">Pick book</text>
+    <text name="SelectABook">Select a book</text>
+    <text name="Entities">Entities</text>
     <text name="Book">Book</text>
     <text name="Title">Title</text>
     <text name="ISBN">I s b n</text>

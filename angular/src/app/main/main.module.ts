@@ -1,7 +1,11 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { OrderItemsComponent } from './entities/orderItems/orderItems.component';
+import { ViewOrderItemModalComponent } from './entities/orderItems/view-orderItem-modal.component';
+import { CreateOrEditOrderItemModalComponent } from './entities/orderItems/create-or-edit-orderItem-modal.component';
+
 import { BooksComponent } from './entities/books/books.component';
 import { ViewBookModalComponent } from './entities/books/view-book-modal.component';
 import { CreateOrEditBookModalComponent } from './entities/books/create-or-edit-book-modal.component';
@@ -49,6 +53,10 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		OrderItemsComponent,
+
+		ViewOrderItemModalComponent,
+		CreateOrEditOrderItemModalComponent,
 		BooksComponent,
 		ViewBookModalComponent,		CreateOrEditBookModalComponent,
     UserLookupTableModalComponent, 

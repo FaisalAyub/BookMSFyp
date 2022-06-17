@@ -1,4 +1,4 @@
-using Abp.Authorization;
+﻿using Abp.Authorization;
 using Abp.Configuration.Startup;
 using Abp.Localization;
 using Abp.MultiTenancy;
@@ -30,39 +30,35 @@ namespace ERP.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var orderItems = pages.CreateChildPermission(AppPermissions.Pages_OrderItems, L("OrderItems"), multiTenancySides: MultiTenancySides.Host);
+            orderItems.CreateChildPermission(AppPermissions.Pages_OrderItems_Create, L("CreateNewOrderItem"), multiTenancySides: MultiTenancySides.Host);
+            orderItems.CreateChildPermission(AppPermissions.Pages_OrderItems_Edit, L("EditOrderItem"), multiTenancySides: MultiTenancySides.Host);
+            orderItems.CreateChildPermission(AppPermissions.Pages_OrderItems_Delete, L("DeleteOrderItem"), multiTenancySides: MultiTenancySides.Host);
+
             var books = pages.CreateChildPermission(AppPermissions.Pages_Books, L("Books"), multiTenancySides: MultiTenancySides.Host);
             books.CreateChildPermission(AppPermissions.Pages_Books_Create, L("CreateNewBook"), multiTenancySides: MultiTenancySides.Host);
             books.CreateChildPermission(AppPermissions.Pages_Books_Edit, L("EditBook"), multiTenancySides: MultiTenancySides.Host);
             books.CreateChildPermission(AppPermissions.Pages_Books_Delete, L("DeleteBook"), multiTenancySides: MultiTenancySides.Host);
-
-
 
             //var glacgrp = pages.CreateChildPermission(AppPermissions.Pages_GLACGRP, L("GLACGRP"));
             //glacgrp.CreateChildPermission(AppPermissions.Pages_GLACGRP_Create, L("CreateNewGLACGRP"));
             //glacgrp.CreateChildPermission(AppPermissions.Pages_GLACGRP_Edit, L("EditGLACGRP"));
             //glacgrp.CreateChildPermission(AppPermissions.Pages_GLACGRP_Delete, L("DeleteGLACGRP"));
 
-
-
             //var glCstCent = pages.CreateChildPermission(AppPermissions.Pages_GLCstCent, L("GLCstCent"));
             //glCstCent.CreateChildPermission(AppPermissions.Pages_GLCstCent_Create, L("CreateNewGLCstCent"));
             //glCstCent.CreateChildPermission(AppPermissions.Pages_GLCstCent_Edit, L("EditGLCstCent"));
             //glCstCent.CreateChildPermission(AppPermissions.Pages_GLCstCent_Delete, L("DeleteGLCstCent"));
-
-
 
             //var glbooks = pages.CreateChildPermission(AppPermissions.Pages_GLBOOKS, L("GLBOOKS"));
             //glbooks.CreateChildPermission(AppPermissions.Pages_GLBOOKS_Create, L("CreateNewGLBOOKS"));
             //glbooks.CreateChildPermission(AppPermissions.Pages_GLBOOKS_Edit, L("EditGLBOOKS"));
             //glbooks.CreateChildPermission(AppPermissions.Pages_GLBOOKS_Delete, L("DeleteGLBOOKS"));
 
-
-
             //var glsrce = pages.CreateChildPermission(AppPermissions.Pages_GLSRCE, L("GLSRCE"));
             //glsrce.CreateChildPermission(AppPermissions.Pages_GLSRCE_Create, L("CreateNewGLSRCE"));
             //glsrce.CreateChildPermission(AppPermissions.Pages_GLSRCE_Edit, L("EditGLSRCE"));
             //glsrce.CreateChildPermission(AppPermissions.Pages_GLSRCE_Delete, L("DeleteGLSRCE"));
-
 
             pages.CreateChildPermission(AppPermissions.Pages_DemoUiComponents, L("DemoUiComponents"));
 
@@ -108,7 +104,7 @@ namespace ERP.Authorization
             editions.CreateChildPermission(AppPermissions.Pages_Editions_Create, L("CreatingNewEdition"), multiTenancySides: MultiTenancySides.Host);
             editions.CreateChildPermission(AppPermissions.Pages_Editions_Edit, L("EditingEdition"), multiTenancySides: MultiTenancySides.Host);
             editions.CreateChildPermission(AppPermissions.Pages_Editions_Delete, L("DeletingEdition"), multiTenancySides: MultiTenancySides.Host);
-            editions.CreateChildPermission(AppPermissions.Pages_Editions_MoveTenantsToAnotherEdition, L("MoveTenantsToAnotherEdition"), multiTenancySides: MultiTenancySides.Host); 
+            editions.CreateChildPermission(AppPermissions.Pages_Editions_MoveTenantsToAnotherEdition, L("MoveTenantsToAnotherEdition"), multiTenancySides: MultiTenancySides.Host);
 
             var tenants = pages.CreateChildPermission(AppPermissions.Pages_Tenants, L("Tenants"), multiTenancySides: MultiTenancySides.Host);
             tenants.CreateChildPermission(AppPermissions.Pages_Tenants_Create, L("CreatingNewTenant"), multiTenancySides: MultiTenancySides.Host);

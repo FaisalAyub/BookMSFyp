@@ -1,0 +1,53 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #orderItemForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="orderItem.id">{{l("EditOrderItem")}}</span>
+                        <span *ngIf="!orderItem.id">{{l("CreateNewOrderItem")}}</span>
+                    </h4>                    
+                    
+                <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                     <span aria-hidden="true">&times;</span>
+                </button>
+             
+                    
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+						<label for="BookTitle">{{l("Book")}}</label>
+						<select name="orderItem.bookId" [(ngModel)]="orderItem.bookId" class="form-select" required>
+							<option value="">{{l("SelectABook")}}</option>
+							<option *ngFor="let item of allBooks" value="{{item.id}}">{{item.displayName}}</option>
+						</select>
+					</div>
+					 
+
+
+								<div class="form-group">
+									<label for="OrderItem_Quantity">{{l("Quantity")}}</label>
+									<input type="number" #OrderItem_Quantity="ngModel" id="OrderItem_Quantity" class="form-control" [(ngModel)]="orderItem.quantity" name="Quantity"   />
+									<validation-messages [formCtrl]="OrderItem_Quantity"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="OrderItem_Price">{{l("Price")}}</label>
+									<input type="number" #OrderItem_Price="ngModel" id="OrderItem_Price" class="form-control" [(ngModel)]="orderItem.price" name="Price"   />
+									<validation-messages [formCtrl]="OrderItem_Price"></validation-messages>
+								</div>
+					
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!orderItemForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

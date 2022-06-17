@@ -1,4 +1,4 @@
-namespace ERP.Authorization
+﻿namespace ERP.Authorization
 {
     /// <summary>
     /// Defines string constants for application's permission names.
@@ -6,17 +6,21 @@ namespace ERP.Authorization
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_OrderItems = "Pages.OrderItems";
+        public const string Pages_OrderItems_Create = "Pages.OrderItems.Create";
+        public const string Pages_OrderItems_Edit = "Pages.OrderItems.Edit";
+        public const string Pages_OrderItems_Delete = "Pages.OrderItems.Delete";
+
         public const string Pages_Books = "Pages.Books";
         public const string Pages_Books_Create = "Pages.Books.Create";
         public const string Pages_Books_Edit = "Pages.Books.Edit";
         public const string Pages_Books_Delete = "Pages.Books.Delete";
- 
-          
+
         //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
         public const string Pages = "Pages";
 
-        public const string Pages_DemoUiComponents= "Pages.DemoUiComponents";
+        public const string Pages_DemoUiComponents = "Pages.DemoUiComponents";
         public const string Pages_Administration = "Pages.Administration";
 
         public const string Pages_Administration_Roles = "Pages.Administration.Roles";
