@@ -20,6 +20,8 @@ namespace ERP.Entities
 
         Task Delete(EntityDto input);
 
+        Task<PagedResultDto<OrderItemOrderLookupTableDto>> GetAllOrderForLookupTable(GetAllForLookupTableInput input);
+
         Task<List<OrderItemBookLookupTableDto>> GetAllBookForTableDropdown();
 
     }

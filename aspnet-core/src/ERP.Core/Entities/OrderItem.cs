@@ -1,4 +1,5 @@
 ﻿using ERP.Entities;
+using ERP.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,6 +15,11 @@ namespace ERP.Entities
         public virtual int Quantity { get; set; }
 
         public virtual int Price { get; set; }
+
+        public virtual int? OrderId { get; set; }
+
+        [ForeignKey("OrderId")]
+        public Order OrderFk { get; set; }
 
         public virtual int BookId { get; set; }
 

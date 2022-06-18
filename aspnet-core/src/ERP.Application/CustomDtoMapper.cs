@@ -43,6 +43,8 @@ namespace ERP
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditOrderDto, Order>().ReverseMap();
+            configuration.CreateMap<OrderDto, Order>().ReverseMap();
             configuration.CreateMap<CreateOrEditOrderItemDto, OrderItem>().ReverseMap();
             configuration.CreateMap<OrderItemDto, OrderItem>().ReverseMap();
             configuration.CreateMap<CreateOrEditBookDto, Book>();

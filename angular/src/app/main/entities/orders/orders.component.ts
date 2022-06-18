@@ -1,13 +1,13 @@
 ﻿import {AppConsts} from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute , Router} from '@angular/router';
-import { OrderItemsServiceProxy, OrderItemDto  } from '@shared/service-proxies/service-proxies';
+import { OrdersServiceProxy, OrderDto  } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateOrEditOrderItemModalComponent } from './create-or-edit-orderItem-modal.component';
+import { CreateOrEditOrderModalComponent } from './create-or-edit-order-modal.component';
 
-import { ViewOrderItemModalComponent } from './view-orderItem-modal.component';
+import { ViewOrderModalComponent } from './view-order-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/components/table/table';
 import { Paginator } from 'primeng/components/paginator/paginator';
@@ -18,40 +18,44 @@ import * as moment from 'moment';
 
 
 @Component({
-    templateUrl: './orderItems.component.html',
+    templateUrl: './orders.component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class OrderItemsComponent extends AppComponentBase {
+export class OrdersComponent extends AppComponentBase {
     
     
-    @ViewChild('createOrEditOrderItemModal', { static: true }) createOrEditOrderItemModal: CreateOrEditOrderItemModalComponent;
-    @ViewChild('viewOrderItemModalComponent', { static: true }) viewOrderItemModal: ViewOrderItemModalComponent;   
+    @ViewChild('createOrEditOrderModal', { static: true }) createOrEditOrderModal: CreateOrEditOrderModalComponent;
+    @ViewChild('viewOrderModalComponent', { static: true }) viewOrderModal: ViewOrderModalComponent;   
     
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     advancedFiltersAreShown = false;
     filterText = '';
-    maxQuantityFilter : number;
-		maxQuantityFilterEmpty : number;
-		minQuantityFilter : number;
-		minQuantityFilterEmpty : number;
-    maxPriceFilter : number;
-		maxPriceFilterEmpty : number;
-		minPriceFilter : number;
-		minPriceFilterEmpty : number;
-        orderOrderNameFilter = '';
-        bookTitleFilter = '';
+    maxOrderDateFilter : moment.Moment;
+		minOrderDateFilter : moment.Moment;
+    descriptionFilter = '';
+    statusFilter = '';
+    maxTotalBillFilter : number;
+		maxTotalBillFilterEmpty : number;
+		minTotalBillFilter : number;
+		minTotalBillFilterEmpty : number;
+    orderNameFilter = '';
+        userNameFilter = '';
 
 
 
 
+            orderItemRowSelection: boolean[] = [];
+            
 
+                   childEntitySelection: {} = {};
+            
 
     constructor(
         injector: Injector,
-        private _orderItemsServiceProxy: OrderItemsServiceProxy,
+        private _ordersServiceProxy: OrdersServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -60,7 +64,7 @@ export class OrderItemsComponent extends AppComponentBase {
         super(injector);
     }
 
-    getOrderItems(event?: LazyLoadEvent) {
+    getOrders(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             if (this.primengTableHelper.records &&
@@ -71,15 +75,16 @@ export class OrderItemsComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._orderItemsServiceProxy.getAll(
+        this._ordersServiceProxy.getAll(
             this.filterText,
-            this.maxQuantityFilter == null ? this.maxQuantityFilterEmpty: this.maxQuantityFilter,
-            this.minQuantityFilter == null ? this.minQuantityFilterEmpty: this.minQuantityFilter,
-            this.maxPriceFilter == null ? this.maxPriceFilterEmpty: this.maxPriceFilter,
-            this.minPriceFilter == null ? this.minPriceFilterEmpty: this.minPriceFilter,
-            this.orderOrderNameFilter,
-            this.bookTitleFilter,
-                    undefined,
+            this.maxOrderDateFilter === undefined ? this.maxOrderDateFilter : moment(this.maxOrderDateFilter).endOf('day'),
+            this.minOrderDateFilter === undefined ? this.minOrderDateFilter : moment(this.minOrderDateFilter).startOf('day'),
+            this.descriptionFilter,
+            this.statusFilter,
+            this.maxTotalBillFilter == null ? this.maxTotalBillFilterEmpty: this.maxTotalBillFilter,
+            this.minTotalBillFilter == null ? this.minTotalBillFilterEmpty: this.minTotalBillFilter,
+            this.orderNameFilter,
+            this.userNameFilter,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -94,18 +99,18 @@ export class OrderItemsComponent extends AppComponentBase {
         this.paginator.changePage(this.paginator.getPage());
     }
 
-    createOrderItem(): void {
-        this.createOrEditOrderItemModal.show();        
+    createOrder(): void {
+        this.createOrEditOrderModal.show();        
     }
 
 
-    deleteOrderItem(orderItem: OrderItemDto): void {
+    deleteOrder(order: OrderDto): void {
         this.message.confirm(
             '',
             this.l('AreYouSure'),
             (isConfirmed) => {
                 if (isConfirmed) {
-                    this._orderItemsServiceProxy.delete(orderItem.id)
+                    this._ordersServiceProxy.delete(order.id)
                         .subscribe(() => {
                             this.reloadPage();
                             this.notify.success(this.l('SuccessfullyDeleted'));
@@ -116,7 +121,27 @@ export class OrderItemsComponent extends AppComponentBase {
     }
     
     
+                  selectEditTable(table){
+                      this.childEntitySelection = {};
+                      this.childEntitySelection[table] = true;
+                  }
+            
     
+               openChildRowForOrderItem(index, table) {
+                   let isAlreadyOpened = this.orderItemRowSelection[index];                   
+                   this.closeAllChildRows();                   
+                   this.orderItemRowSelection = [];
+                   if (!isAlreadyOpened) {
+                       this.orderItemRowSelection[index] = true;
+                   }
+                   this.selectEditTable(table);
+               }
+            
     
+                  closeAllChildRows() : void{
+                     
+                this.orderItemRowSelection = [];
+            
+                  }
     
 }

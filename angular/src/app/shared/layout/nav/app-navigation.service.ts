@@ -23,6 +23,8 @@ export class AppNavigationService {
             // new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             //
             new AppMenuItem('OrderItems', 'Pages.OrderItems', 'flaticon-more', '/app/main/entities/orderItems'),
+            
+            new AppMenuItem('Orders', 'Pages.Orders', 'flaticon-more', '/app/main/entities/orders'),
              new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
 
            

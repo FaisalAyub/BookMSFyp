@@ -1,5 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { OrdersComponent } from './entities/orders/orders.component';
 import { OrderItemsComponent } from './entities/orderItems/orderItems.component';
 import { BooksComponent } from './entities/books/books.component'; 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -10,6 +11,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
             {
                 path: '',
                 children: [
+                    { path: 'entities/orders', component: OrdersComponent, data: { permission: 'Pages.Orders' }  },
                     { path: 'entities/orderItems', component: OrderItemsComponent, data: { permission: 'Pages.OrderItems' }  },
                     { path: 'entities/books', component: BooksComponent, data: { permission: 'Pages.Books' }  },
                     // { path: 'accountGroup/glacgrp', component: GLACGRPComponent, data: { permission: 'Pages.GLACGRP' }  },

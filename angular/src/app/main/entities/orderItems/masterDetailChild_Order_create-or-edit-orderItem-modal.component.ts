@@ -6,18 +6,16 @@ import { OrderItemsServiceProxy, CreateOrEditOrderItemDto ,OrderItemBookLookupTa
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 
-import { OrderItemOrderLookupTableModalComponent } from './orderItem-order-lookup-table-modal.component';
 
 
 
 @Component({
-    selector: 'createOrEditOrderItemModal',
-    templateUrl: './create-or-edit-orderItem-modal.component.html'
+    selector: 'masterDetailChild_Order_createOrEditOrderItemModal',
+    templateUrl: './masterDetailChild_Order_create-or-edit-orderItem-modal.component.html'
 })
-export class CreateOrEditOrderItemModalComponent extends AppComponentBase implements OnInit{
+export class MasterDetailChild_Order_CreateOrEditOrderItemModalComponent extends AppComponentBase implements OnInit{
    
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
-    @ViewChild('orderItemOrderLookupTableModal', { static: true }) orderItemOrderLookupTableModal: OrderItemOrderLookupTableModalComponent;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
@@ -26,7 +24,6 @@ export class CreateOrEditOrderItemModalComponent extends AppComponentBase implem
 
     orderItem: CreateOrEditOrderItemDto = new CreateOrEditOrderItemDto();
 
-    orderOrderName = '';
     bookTitle = '';
 
 	allBooks: OrderItemBookLookupTableDto[];
@@ -39,13 +36,18 @@ export class CreateOrEditOrderItemModalComponent extends AppComponentBase implem
         super(injector);
     }
     
-    show(orderItemId?: number): void {
+                 orderId: any;
+             
+    show(
+                 orderId: any,
+             orderItemId?: number): void {
     
+                 this.orderId = orderId;
+             
 
         if (!orderItemId) {
             this.orderItem = new CreateOrEditOrderItemDto();
             this.orderItem.id = orderItemId;
-            this.orderOrderName = '';
             this.bookTitle = '';
 
 
@@ -55,7 +57,6 @@ export class CreateOrEditOrderItemModalComponent extends AppComponentBase implem
             this._orderItemsServiceProxy.getOrderItemForEdit(orderItemId).subscribe(result => {
                 this.orderItem = result.orderItem;
 
-                this.orderOrderName = result.orderOrderName;
                 this.bookTitle = result.bookTitle;
 
 
@@ -75,6 +76,8 @@ export class CreateOrEditOrderItemModalComponent extends AppComponentBase implem
             
 			
 			
+                this.orderItem.orderId = this.orderId;
+            
             this._orderItemsServiceProxy.createOrEdit(this.orderItem)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
@@ -84,23 +87,10 @@ export class CreateOrEditOrderItemModalComponent extends AppComponentBase implem
              });
     }
 
-    openSelectOrderModal() {
-        this.orderItemOrderLookupTableModal.id = this.orderItem.orderId;
-        this.orderItemOrderLookupTableModal.displayName = this.orderOrderName;
-        this.orderItemOrderLookupTableModal.show();
-    }
 
 
-    setOrderIdNull() {
-        this.orderItem.orderId = null;
-        this.orderOrderName = '';
-    }
 
 
-    getNewOrderId() {
-        this.orderItem.orderId = this.orderItemOrderLookupTableModal.id;
-        this.orderOrderName = this.orderItemOrderLookupTableModal.displayName;
-    }
 
 
 

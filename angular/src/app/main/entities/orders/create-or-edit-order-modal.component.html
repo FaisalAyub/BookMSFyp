@@ -1,0 +1,71 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #orderForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="order.id">{{l("EditOrder")}}</span>
+                        <span *ngIf="!order.id">{{l("CreateNewOrder")}}</span>
+                    </h4>                    
+                    
+                <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                     <span aria-hidden="true">&times;</span>
+                </button>
+             
+                    
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+						<label for="UserName">{{l("User")}}</label>
+						<select name="order.orderBy" [(ngModel)]="order.orderBy" class="form-select" >
+							<option value="">{{l("SelectAUser")}}</option>
+							<option *ngFor="let item of allUsers" value="{{item.id}}">{{item.displayName}}</option>
+						</select>
+					</div>
+					 
+
+
+								<div class="form-group">
+									<label for="Order_OrderDate">{{l("OrderDate")}}</label>
+									 <input required class="form-control m-input" #Order_OrderDate type="datetime" bsDatepicker [(ngModel)]="order.orderDate._d" id="Order_OrderDate" name="Order_OrderDate">
+									<validation-messages [formCtrl]="Order_OrderDate"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="Order_Description">{{l("Description")}}</label>
+									<input type="text" #Order_Description="ngModel" id="Order_Description" class="form-control" [(ngModel)]="order.description" name="Description"    />
+								    <validation-messages [formCtrl]="Order_Description"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="Order_Status">{{l("Status")}}</label>
+									<input type="text" #Order_Status="ngModel" id="Order_Status" class="form-control" [(ngModel)]="order.status" name="Status"    />
+								    <validation-messages [formCtrl]="Order_Status"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="Order_TotalBill">{{l("TotalBill")}}</label>
+									<input type="number" #Order_TotalBill="ngModel" id="Order_TotalBill" class="form-control" [(ngModel)]="order.totalBill" name="TotalBill"   />
+									<validation-messages [formCtrl]="Order_TotalBill"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="Order_OrderName">{{l("OrderName")}}</label>
+									<input type="text" #Order_OrderName="ngModel" id="Order_OrderName" class="form-control" [(ngModel)]="order.orderName" name="OrderName"    />
+								    <validation-messages [formCtrl]="Order_OrderName"></validation-messages>
+								</div>
+					
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!orderForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

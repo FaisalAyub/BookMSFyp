@@ -5,6 +5,7 @@ import * as ApiServiceProxies from './service-proxies';
 
 @NgModule({
     providers: [
+        ApiServiceProxies.OrdersServiceProxy,        
         ApiServiceProxies.OrderItemsServiceProxy,        
         ApiServiceProxies.BooksServiceProxy,        
         // ApiServiceProxies.GLACGRPServiceProxy,        

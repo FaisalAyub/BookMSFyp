@@ -1,22 +1,21 @@
-import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
+﻿import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import {BooksServiceProxy, BookUserLookupTableDto } from '@shared/service-proxies/service-proxies';
+import {OrderItemsServiceProxy, OrderItemOrderLookupTableDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Table } from 'primeng/components/table/table';
 import { Paginator } from 'primeng/components/paginator/paginator';
 import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
-
 @Component({
-    selector: 'userLookupTableModal',
-    styleUrls: ['./user-lookup-table-modal.component.less'],
+    selector: 'orderItemOrderLookupTableModal',
+    styleUrls: ['./orderItem-order-lookup-table-modal.component.less'],
     encapsulation: ViewEncapsulation.None,
-    templateUrl: './user-lookup-table-modal.component.html'
+    templateUrl: './orderItem-order-lookup-table-modal.component.html'
 })
-export class UserLookupTableModalComponent extends AppComponentBase {
+export class OrderItemOrderLookupTableModalComponent extends AppComponentBase {
 
-    @ViewChild('createOrEditModal', {static: true}) modal: ModalDirective;
-    @ViewChild('dataTable', {static: true}) dataTable: Table;
-    @ViewChild('paginator', {static: true}) paginator: Paginator;
+    @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
+    @ViewChild('dataTable', { static: true }) dataTable: Table;
+    @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     filterText = '';
     id: number;
@@ -28,7 +27,7 @@ export class UserLookupTableModalComponent extends AppComponentBase {
 
     constructor(
         injector: Injector,
-        private _booksServiceProxy: BooksServiceProxy
+        private _orderItemsServiceProxy: OrderItemsServiceProxy
     ) {
         super(injector);
     }
@@ -47,12 +46,15 @@ export class UserLookupTableModalComponent extends AppComponentBase {
 
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
-            return;
+            if (this.primengTableHelper.records &&
+                this.primengTableHelper.records.length > 0) {
+                return;
+            }
         }
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._booksServiceProxy.getAllUserForLookupTable(
+        this._orderItemsServiceProxy.getAllOrderForLookupTable(
             this.filterText,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
@@ -68,9 +70,9 @@ export class UserLookupTableModalComponent extends AppComponentBase {
         this.paginator.changePage(this.paginator.getPage());
     }
 
-    setAndSave(user: BookUserLookupTableDto) {
-        this.id = user.id;
-        this.displayName = user.displayName;
+    setAndSave(order: OrderItemOrderLookupTableDto) {
+        this.id = order.id;
+        this.displayName = order.displayName;
         this.active = false;
         this.modal.hide();
         this.modalSave.emit(null);

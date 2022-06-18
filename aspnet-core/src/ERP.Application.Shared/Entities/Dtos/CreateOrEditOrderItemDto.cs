@@ -11,6 +11,8 @@ namespace ERP.Entities.Dtos
 
         public int Price { get; set; }
 
+        public int? OrderId { get; set; }
+
         public int BookId { get; set; }
 
     }

@@ -30,6 +30,11 @@ namespace ERP.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var orders = pages.CreateChildPermission(AppPermissions.Pages_Orders, L("Orders"));
+            orders.CreateChildPermission(AppPermissions.Pages_Orders_Create, L("CreateNewOrder"));
+            orders.CreateChildPermission(AppPermissions.Pages_Orders_Edit, L("EditOrder"));
+            orders.CreateChildPermission(AppPermissions.Pages_Orders_Delete, L("DeleteOrder"));
+
             var orderItems = pages.CreateChildPermission(AppPermissions.Pages_OrderItems, L("OrderItems"), multiTenancySides: MultiTenancySides.Host);
             orderItems.CreateChildPermission(AppPermissions.Pages_OrderItems_Create, L("CreateNewOrderItem"), multiTenancySides: MultiTenancySides.Host);
             orderItems.CreateChildPermission(AppPermissions.Pages_OrderItems_Edit, L("EditOrderItem"), multiTenancySides: MultiTenancySides.Host);

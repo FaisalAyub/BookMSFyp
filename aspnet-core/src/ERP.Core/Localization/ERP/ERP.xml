@@ -1,6 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="OrderItem">Order item</text>
+  <texts>    <text name="Order">Order</text>
+    <text name="ERP.Entities.Order">Order</text>
+    <text name="OrderDate">Order date</text>
+    <text name="TotalBill">Total bill</text>
+    <text name="OrderName">Order name</text>
+    <text name="OrdersHeaderInfo">Orders header info</text>
+    <text name="CreateNewOrder">Create new order</text>
+    <text name="EditOrder">Edit order</text>
+    <text name="DeleteOrder">Delete order</text>
+    <text name="Orders">Orders</text>
+    <text name="OrderDateRange">Order date range</text>
+    <text name="OrderOrderName">Order order name</text>
+    <text name="PickOrder">Pick order</text>
+    <text name="OrderItem">Order item</text>
     <text name="ERP.Entities.OrderItem">OrderItem</text>
     <text name="OrderItemsHeaderInfo">Order items header info</text>
     <text name="CreateNewOrderItem">Create new order item</text>

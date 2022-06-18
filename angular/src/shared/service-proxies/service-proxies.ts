@@ -4505,13 +4505,15 @@ export class OrderItemsServiceProxy {
      * @param minQuantityFilter (optional) 
      * @param maxPriceFilter (optional) 
      * @param minPriceFilter (optional) 
+     * @param orderOrderNameFilter (optional) 
      * @param bookTitleFilter (optional) 
+     * @param orderIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | null | undefined, maxQuantityFilter: number | null | undefined, minQuantityFilter: number | null | undefined, maxPriceFilter: number | null | undefined, minPriceFilter: number | null | undefined, bookTitleFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetOrderItemForViewDto> {
+    getAll(filter: string | null | undefined, maxQuantityFilter: number | null | undefined, minQuantityFilter: number | null | undefined, maxPriceFilter: number | null | undefined, minPriceFilter: number | null | undefined, orderOrderNameFilter: string | null | undefined, bookTitleFilter: string | null | undefined, orderIdFilter: number | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetOrderItemForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OrderItems/GetAll?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
@@ -4523,8 +4525,12 @@ export class OrderItemsServiceProxy {
             url_ += "MaxPriceFilter=" + encodeURIComponent("" + maxPriceFilter) + "&"; 
         if (minPriceFilter !== undefined)
             url_ += "MinPriceFilter=" + encodeURIComponent("" + minPriceFilter) + "&"; 
+        if (orderOrderNameFilter !== undefined)
+            url_ += "OrderOrderNameFilter=" + encodeURIComponent("" + orderOrderNameFilter) + "&"; 
         if (bookTitleFilter !== undefined)
             url_ += "BookTitleFilter=" + encodeURIComponent("" + bookTitleFilter) + "&"; 
+        if (orderIdFilter !== undefined)
+            url_ += "OrderIdFilter=" + encodeURIComponent("" + orderIdFilter) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
@@ -4788,6 +4794,69 @@ export class OrderItemsServiceProxy {
     }
 
     /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllOrderForLookupTable(filter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfOrderItemOrderLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/OrderItems/GetAllOrderForLookupTable?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOrderForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOrderForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfOrderItemOrderLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfOrderItemOrderLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOrderForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfOrderItemOrderLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfOrderItemOrderLookupTableDto.fromJS(resultData200) : new PagedResultDtoOfOrderItemOrderLookupTableDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfOrderItemOrderLookupTableDto>(<any>null);
+    }
+
+    /**
      * @return Success
      */
     getAllBookForTableDropdown(): Observable<OrderItemBookLookupTableDto[]> {
@@ -4840,6 +4909,370 @@ export class OrderItemsServiceProxy {
             }));
         }
         return _observableOf<OrderItemBookLookupTableDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class OrdersServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxOrderDateFilter (optional) 
+     * @param minOrderDateFilter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param maxTotalBillFilter (optional) 
+     * @param minTotalBillFilter (optional) 
+     * @param orderNameFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, maxOrderDateFilter: moment.Moment | null | undefined, minOrderDateFilter: moment.Moment | null | undefined, descriptionFilter: string | null | undefined, statusFilter: string | null | undefined, maxTotalBillFilter: number | null | undefined, minTotalBillFilter: number | null | undefined, orderNameFilter: string | null | undefined, userNameFilter: string | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfGetOrderForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Orders/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxOrderDateFilter !== undefined)
+            url_ += "MaxOrderDateFilter=" + encodeURIComponent(maxOrderDateFilter ? "" + maxOrderDateFilter.toJSON() : "") + "&"; 
+        if (minOrderDateFilter !== undefined)
+            url_ += "MinOrderDateFilter=" + encodeURIComponent(minOrderDateFilter ? "" + minOrderDateFilter.toJSON() : "") + "&"; 
+        if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&"; 
+        if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (maxTotalBillFilter !== undefined)
+            url_ += "MaxTotalBillFilter=" + encodeURIComponent("" + maxTotalBillFilter) + "&"; 
+        if (minTotalBillFilter !== undefined)
+            url_ += "MinTotalBillFilter=" + encodeURIComponent("" + minTotalBillFilter) + "&"; 
+        if (orderNameFilter !== undefined)
+            url_ += "OrderNameFilter=" + encodeURIComponent("" + orderNameFilter) + "&"; 
+        if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetOrderForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetOrderForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetOrderForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetOrderForViewDto.fromJS(resultData200) : new PagedResultDtoOfGetOrderForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetOrderForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOrderForView(id: number | null | undefined): Observable<GetOrderForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Orders/GetOrderForView?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOrderForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOrderForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOrderForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOrderForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOrderForView(response: HttpResponseBase): Observable<GetOrderForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetOrderForViewDto.fromJS(resultData200) : new GetOrderForViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOrderForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOrderForEdit(id: number | null | undefined): Observable<GetOrderForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Orders/GetOrderForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOrderForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOrderForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOrderForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOrderForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOrderForEdit(response: HttpResponseBase): Observable<GetOrderForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetOrderForEditOutput.fromJS(resultData200) : new GetOrderForEditOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOrderForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createOrEdit(input: CreateOrEditOrderDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Orders/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Orders/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllUserForTableDropdown(): Observable<OrderUserLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Orders/GetAllUserForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OrderUserLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OrderUserLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<OrderUserLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OrderUserLookupTableDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OrderUserLookupTableDto[]>(<any>null);
     }
 }
 
@@ -16113,6 +16546,7 @@ export interface IPagedResultDtoOfGetOrderItemForViewDto {
 
 export class GetOrderItemForViewDto implements IGetOrderItemForViewDto {
     orderItem!: OrderItemDto | undefined;
+    orderOrderName!: string | undefined;
     bookTitle!: string | undefined;
 
     constructor(data?: IGetOrderItemForViewDto) {
@@ -16127,6 +16561,7 @@ export class GetOrderItemForViewDto implements IGetOrderItemForViewDto {
     init(data?: any) {
         if (data) {
             this.orderItem = data["orderItem"] ? OrderItemDto.fromJS(data["orderItem"]) : <any>undefined;
+            this.orderOrderName = data["orderOrderName"];
             this.bookTitle = data["bookTitle"];
         }
     }
@@ -16141,6 +16576,7 @@ export class GetOrderItemForViewDto implements IGetOrderItemForViewDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["orderItem"] = this.orderItem ? this.orderItem.toJSON() : <any>undefined;
+        data["orderOrderName"] = this.orderOrderName;
         data["bookTitle"] = this.bookTitle;
         return data; 
     }
@@ -16148,12 +16584,14 @@ export class GetOrderItemForViewDto implements IGetOrderItemForViewDto {
 
 export interface IGetOrderItemForViewDto {
     orderItem: OrderItemDto | undefined;
+    orderOrderName: string | undefined;
     bookTitle: string | undefined;
 }
 
 export class OrderItemDto implements IOrderItemDto {
     quantity!: number | undefined;
     price!: number | undefined;
+    orderId!: number | undefined;
     bookId!: number | undefined;
     id!: number | undefined;
 
@@ -16170,6 +16608,7 @@ export class OrderItemDto implements IOrderItemDto {
         if (data) {
             this.quantity = data["quantity"];
             this.price = data["price"];
+            this.orderId = data["orderId"];
             this.bookId = data["bookId"];
             this.id = data["id"];
         }
@@ -16186,6 +16625,7 @@ export class OrderItemDto implements IOrderItemDto {
         data = typeof data === 'object' ? data : {};
         data["quantity"] = this.quantity;
         data["price"] = this.price;
+        data["orderId"] = this.orderId;
         data["bookId"] = this.bookId;
         data["id"] = this.id;
         return data; 
@@ -16195,12 +16635,14 @@ export class OrderItemDto implements IOrderItemDto {
 export interface IOrderItemDto {
     quantity: number | undefined;
     price: number | undefined;
+    orderId: number | undefined;
     bookId: number | undefined;
     id: number | undefined;
 }
 
 export class GetOrderItemForEditOutput implements IGetOrderItemForEditOutput {
     orderItem!: CreateOrEditOrderItemDto | undefined;
+    orderOrderName!: string | undefined;
     bookTitle!: string | undefined;
 
     constructor(data?: IGetOrderItemForEditOutput) {
@@ -16215,6 +16657,7 @@ export class GetOrderItemForEditOutput implements IGetOrderItemForEditOutput {
     init(data?: any) {
         if (data) {
             this.orderItem = data["orderItem"] ? CreateOrEditOrderItemDto.fromJS(data["orderItem"]) : <any>undefined;
+            this.orderOrderName = data["orderOrderName"];
             this.bookTitle = data["bookTitle"];
         }
     }
@@ -16229,6 +16672,7 @@ export class GetOrderItemForEditOutput implements IGetOrderItemForEditOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["orderItem"] = this.orderItem ? this.orderItem.toJSON() : <any>undefined;
+        data["orderOrderName"] = this.orderOrderName;
         data["bookTitle"] = this.bookTitle;
         return data; 
     }
@@ -16236,12 +16680,14 @@ export class GetOrderItemForEditOutput implements IGetOrderItemForEditOutput {
 
 export interface IGetOrderItemForEditOutput {
     orderItem: CreateOrEditOrderItemDto | undefined;
+    orderOrderName: string | undefined;
     bookTitle: string | undefined;
 }
 
 export class CreateOrEditOrderItemDto implements ICreateOrEditOrderItemDto {
     quantity!: number | undefined;
     price!: number | undefined;
+    orderId!: number | undefined;
     bookId!: number | undefined;
     id!: number | undefined;
 
@@ -16258,6 +16704,7 @@ export class CreateOrEditOrderItemDto implements ICreateOrEditOrderItemDto {
         if (data) {
             this.quantity = data["quantity"];
             this.price = data["price"];
+            this.orderId = data["orderId"];
             this.bookId = data["bookId"];
             this.id = data["id"];
         }
@@ -16274,6 +16721,7 @@ export class CreateOrEditOrderItemDto implements ICreateOrEditOrderItemDto {
         data = typeof data === 'object' ? data : {};
         data["quantity"] = this.quantity;
         data["price"] = this.price;
+        data["orderId"] = this.orderId;
         data["bookId"] = this.bookId;
         data["id"] = this.id;
         return data; 
@@ -16283,8 +16731,97 @@ export class CreateOrEditOrderItemDto implements ICreateOrEditOrderItemDto {
 export interface ICreateOrEditOrderItemDto {
     quantity: number | undefined;
     price: number | undefined;
+    orderId: number | undefined;
     bookId: number | undefined;
     id: number | undefined;
+}
+
+export class PagedResultDtoOfOrderItemOrderLookupTableDto implements IPagedResultDtoOfOrderItemOrderLookupTableDto {
+    totalCount!: number | undefined;
+    items!: OrderItemOrderLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfOrderItemOrderLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(OrderItemOrderLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfOrderItemOrderLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfOrderItemOrderLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfOrderItemOrderLookupTableDto {
+    totalCount: number | undefined;
+    items: OrderItemOrderLookupTableDto[] | undefined;
+}
+
+export class OrderItemOrderLookupTableDto implements IOrderItemOrderLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IOrderItemOrderLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): OrderItemOrderLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OrderItemOrderLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IOrderItemOrderLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
 }
 
 export class OrderItemBookLookupTableDto implements IOrderItemBookLookupTableDto {
@@ -16323,6 +16860,294 @@ export class OrderItemBookLookupTableDto implements IOrderItemBookLookupTableDto
 }
 
 export interface IOrderItemBookLookupTableDto {
+    id: number | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfGetOrderForViewDto implements IPagedResultDtoOfGetOrderForViewDto {
+    totalCount!: number | undefined;
+    items!: GetOrderForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetOrderForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetOrderForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetOrderForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetOrderForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetOrderForViewDto {
+    totalCount: number | undefined;
+    items: GetOrderForViewDto[] | undefined;
+}
+
+export class GetOrderForViewDto implements IGetOrderForViewDto {
+    order!: OrderDto | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetOrderForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.order = data["order"] ? OrderDto.fromJS(data["order"]) : <any>undefined;
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetOrderForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOrderForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["order"] = this.order ? this.order.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetOrderForViewDto {
+    order: OrderDto | undefined;
+    userName: string | undefined;
+}
+
+export class OrderDto implements IOrderDto {
+    orderDate!: moment.Moment | undefined;
+    description!: string | undefined;
+    status!: string | undefined;
+    totalBill!: number | undefined;
+    orderName!: string | undefined;
+    orderBy!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IOrderDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.orderDate = data["orderDate"] ? moment(data["orderDate"].toString()) : <any>undefined;
+            this.description = data["description"];
+            this.status = data["status"];
+            this.totalBill = data["totalBill"];
+            this.orderName = data["orderName"];
+            this.orderBy = data["orderBy"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): OrderDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OrderDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["orderDate"] = this.orderDate ? this.orderDate.toISOString() : <any>undefined;
+        data["description"] = this.description;
+        data["status"] = this.status;
+        data["totalBill"] = this.totalBill;
+        data["orderName"] = this.orderName;
+        data["orderBy"] = this.orderBy;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IOrderDto {
+    orderDate: moment.Moment | undefined;
+    description: string | undefined;
+    status: string | undefined;
+    totalBill: number | undefined;
+    orderName: string | undefined;
+    orderBy: number | undefined;
+    id: number | undefined;
+}
+
+export class GetOrderForEditOutput implements IGetOrderForEditOutput {
+    order!: CreateOrEditOrderDto | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetOrderForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.order = data["order"] ? CreateOrEditOrderDto.fromJS(data["order"]) : <any>undefined;
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetOrderForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOrderForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["order"] = this.order ? this.order.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetOrderForEditOutput {
+    order: CreateOrEditOrderDto | undefined;
+    userName: string | undefined;
+}
+
+export class CreateOrEditOrderDto implements ICreateOrEditOrderDto {
+    orderDate!: moment.Moment | undefined;
+    description!: string | undefined;
+    status!: string | undefined;
+    totalBill!: number | undefined;
+    orderName!: string | undefined;
+    orderBy!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditOrderDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.orderDate = data["orderDate"] ? moment(data["orderDate"].toString()) : <any>undefined;
+            this.description = data["description"];
+            this.status = data["status"];
+            this.totalBill = data["totalBill"];
+            this.orderName = data["orderName"];
+            this.orderBy = data["orderBy"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditOrderDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditOrderDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["orderDate"] = this.orderDate ? this.orderDate.toISOString() : <any>undefined;
+        data["description"] = this.description;
+        data["status"] = this.status;
+        data["totalBill"] = this.totalBill;
+        data["orderName"] = this.orderName;
+        data["orderBy"] = this.orderBy;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditOrderDto {
+    orderDate: moment.Moment | undefined;
+    description: string | undefined;
+    status: string | undefined;
+    totalBill: number | undefined;
+    orderName: string | undefined;
+    orderBy: number | undefined;
+    id: number | undefined;
+}
+
+export class OrderUserLookupTableDto implements IOrderUserLookupTableDto {
+    id!: number | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IOrderUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): OrderUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OrderUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IOrderUserLookupTableDto {
     id: number | undefined;
     displayName: string | undefined;
 }

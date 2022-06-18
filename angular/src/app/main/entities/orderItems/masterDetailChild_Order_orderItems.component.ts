@@ -1,13 +1,13 @@
 ﻿import {AppConsts} from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, Injector, ViewEncapsulation, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute , Router} from '@angular/router';
 import { OrderItemsServiceProxy, OrderItemDto  } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateOrEditOrderItemModalComponent } from './create-or-edit-orderItem-modal.component';
+import { MasterDetailChild_Order_CreateOrEditOrderItemModalComponent } from './masterDetailChild_Order_create-or-edit-orderItem-modal.component';
 
-import { ViewOrderItemModalComponent } from './view-orderItem-modal.component';
+import { MasterDetailChild_Order_ViewOrderItemModalComponent } from './masterDetailChild_Order_view-orderItem-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/components/table/table';
 import { Paginator } from 'primeng/components/paginator/paginator';
@@ -18,15 +18,16 @@ import * as moment from 'moment';
 
 
 @Component({
-    templateUrl: './orderItems.component.html',
+    templateUrl: './masterDetailChild_Order_orderItems.component.html',
+    selector: "masterDetailChild_Order_orderItems-component",
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class OrderItemsComponent extends AppComponentBase {
+export class MasterDetailChild_Order_OrderItemsComponent extends AppComponentBase {
+    @Input("orderId") orderId: any;
     
-    
-    @ViewChild('createOrEditOrderItemModal', { static: true }) createOrEditOrderItemModal: CreateOrEditOrderItemModalComponent;
-    @ViewChild('viewOrderItemModalComponent', { static: true }) viewOrderItemModal: ViewOrderItemModalComponent;   
+    @ViewChild('createOrEditOrderItemModal', { static: true }) createOrEditOrderItemModal: MasterDetailChild_Order_CreateOrEditOrderItemModalComponent;
+    @ViewChild('viewOrderItemModalComponent', { static: true }) viewOrderItemModal: MasterDetailChild_Order_ViewOrderItemModalComponent;   
     
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
@@ -41,10 +42,7 @@ export class OrderItemsComponent extends AppComponentBase {
 		maxPriceFilterEmpty : number;
 		minPriceFilter : number;
 		minPriceFilterEmpty : number;
-        orderOrderNameFilter = '';
         bookTitleFilter = '';
-
-
 
 
 
@@ -77,9 +75,9 @@ export class OrderItemsComponent extends AppComponentBase {
             this.minQuantityFilter == null ? this.minQuantityFilterEmpty: this.minQuantityFilter,
             this.maxPriceFilter == null ? this.maxPriceFilterEmpty: this.maxPriceFilter,
             this.minPriceFilter == null ? this.minPriceFilterEmpty: this.minPriceFilter,
-            this.orderOrderNameFilter,
+            null,
             this.bookTitleFilter,
-                    undefined,
+            this.orderId,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -95,7 +93,7 @@ export class OrderItemsComponent extends AppComponentBase {
     }
 
     createOrderItem(): void {
-        this.createOrEditOrderItemModal.show();        
+        this.createOrEditOrderItemModal.show(this.orderId);        
     }
 
 
@@ -114,9 +112,5 @@ export class OrderItemsComponent extends AppComponentBase {
             }
         );
     }
-    
-    
-    
-    
     
 }

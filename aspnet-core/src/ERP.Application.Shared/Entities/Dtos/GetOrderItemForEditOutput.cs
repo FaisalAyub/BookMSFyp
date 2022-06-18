@@ -8,6 +8,8 @@ namespace ERP.Entities.Dtos
     {
         public CreateOrEditOrderItemDto OrderItem { get; set; }
 
+        public string OrderOrderName { get; set; }
+
         public string BookTitle { get; set; }
 
     }

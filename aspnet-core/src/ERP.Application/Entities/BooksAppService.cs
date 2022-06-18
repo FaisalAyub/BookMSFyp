@@ -1,6 +1,4 @@
 using ERP.Authorization.Users;
-
-
 using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;

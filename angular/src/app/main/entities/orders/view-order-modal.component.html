@@ -16,21 +16,29 @@
 
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <h6>{{l("Quantity")}} :</h6>
-                        {{ item.orderItem.quantity }}
+                        <h6>{{l("OrderDate")}} :</h6>
+                        {{ item.order.orderDate |  momentFormat:'YYYY-MM-DD HH:mm:ss'  }}
                     </div>
                     <div class="col-6 mb-3">
-                        <h6>{{l("Price")}} :</h6>
-                        {{ item.orderItem.price }}
+                        <h6>{{l("Description")}} :</h6>
+                        {{ item.order.description }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Status")}} :</h6>
+                        {{ item.order.status }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("TotalBill")}} :</h6>
+                        {{ item.order.totalBill }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("OrderName")}} :</h6>
+                        {{ item.order.orderName }}
                     </div>
 
                     <div class="col-6 mb-3">
-                        <h6>({{l("Order")}}) {{l("OrderName")}} :</h6>
-                        {{item.orderOrderName}}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>({{l("Book")}}) {{l("Title")}} :</h6>
-                        {{item.bookTitle}}
+                        <h6>({{l("User")}}) {{l("Name")}} :</h6>
+                        {{item.userName}}
                     </div>
 
                 </div>

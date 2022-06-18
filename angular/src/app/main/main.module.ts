@@ -2,6 +2,16 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { OrdersComponent } from './entities/orders/orders.component';
+import { ViewOrderModalComponent } from './entities/orders/view-order-modal.component';
+import { CreateOrEditOrderModalComponent } from './entities/orders/create-or-edit-order-modal.component';
+
+import { MasterDetailChild_Order_OrderItemsComponent } from './entities/orderItems/masterDetailChild_Order_orderItems.component';
+import { MasterDetailChild_Order_ViewOrderItemModalComponent } from './entities/orderItems/masterDetailChild_Order_view-orderItem-modal.component';
+import { MasterDetailChild_Order_CreateOrEditOrderItemModalComponent } from './entities/orderItems/masterDetailChild_Order_create-or-edit-orderItem-modal.component';
+
+import { OrderItemOrderLookupTableModalComponent } from './entities/orderItems/orderItem-order-lookup-table-modal.component';
+
 import { OrderItemsComponent } from './entities/orderItems/orderItems.component';
 import { ViewOrderItemModalComponent } from './entities/orderItems/view-orderItem-modal.component';
 import { CreateOrEditOrderItemModalComponent } from './entities/orderItems/create-or-edit-orderItem-modal.component';
@@ -53,6 +63,15 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		OrdersComponent,
+
+		ViewOrderModalComponent,
+		CreateOrEditOrderModalComponent,
+		MasterDetailChild_Order_OrderItemsComponent,
+
+		MasterDetailChild_Order_ViewOrderItemModalComponent,
+		MasterDetailChild_Order_CreateOrEditOrderItemModalComponent,
+    OrderItemOrderLookupTableModalComponent,
 		OrderItemsComponent,
 
 		ViewOrderItemModalComponent,

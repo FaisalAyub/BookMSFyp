@@ -16,6 +16,8 @@ namespace ERP.EntityFrameworkCore
 {
     public class ERPDbContext : AbpZeroDbContext<Tenant, Role, User, ERPDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<Order> Orders { get; set; }
+
         public virtual DbSet<OrderItem> OrderItems { get; set; }
 
         public virtual DbSet<Book> Books { get; set; }
@@ -46,10 +48,14 @@ namespace ERP.EntityFrameworkCore
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<BinaryObject>(b =>
+            modelBuilder.Entity<Order>(o =>
             {
-                b.HasIndex(e => new { e.TenantId });
+                o.HasIndex(e => new { e.TenantId });
             });
+            modelBuilder.Entity<BinaryObject>(b =>
+                       {
+                           b.HasIndex(e => new { e.TenantId });
+                       });
 
             modelBuilder.Entity<ChatMessage>(b =>
             {

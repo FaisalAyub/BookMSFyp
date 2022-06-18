@@ -13,7 +13,10 @@ namespace ERP.Entities.Dtos
         public int? MaxPriceFilter { get; set; }
         public int? MinPriceFilter { get; set; }
 
+        public string OrderOrderNameFilter { get; set; }
+
         public string BookTitleFilter { get; set; }
 
+        public int? OrderIdFilter { get; set; }
     }
 }
