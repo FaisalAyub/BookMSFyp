@@ -45,10 +45,10 @@ namespace ERP.Entities
 						.WhereIf(!string.IsNullOrWhiteSpace(input.AuthorFilter),  e => e.Author.ToLower() == input.AuthorFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter),  e => e.Description.ToLower() == input.DescriptionFilter.ToLower().Trim())
 						.WhereIf(!string.IsNullOrWhiteSpace(input.PublisherFilter),  e => e.Publisher.ToLower() == input.PublisherFilter.ToLower().Trim())
-						.WhereIf(input.MinPriceFilter != null, e => e.Price >= input.MinPriceFilter)
-						.WhereIf(input.MaxPriceFilter != null, e => e.Price <= input.MaxPriceFilter)
-						.WhereIf(input.MinQuantityFilter != null, e => e.Quantity >= input.MinQuantityFilter)
-						.WhereIf(input.MaxQuantityFilter != null, e => e.Quantity <= input.MaxQuantityFilter)
+						//.WhereIf(input.MinPriceFilter != null, e => e.Price >= input.MinPriceFilter)
+						//.WhereIf(input.MaxPriceFilter != null, e => e.Price <= input.MaxPriceFilter)
+						//.WhereIf(input.MinQuantityFilter != null, e => e.Quantity >= input.MinQuantityFilter)
+						//.WhereIf(input.MaxQuantityFilter != null, e => e.Quantity <= input.MaxQuantityFilter)
 						.WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.OwnerFk != null && e.OwnerFk.Name.ToLower() == input.UserNameFilter.ToLower().Trim());
 
 			var pagedAndFilteredBooks = filteredBooks
